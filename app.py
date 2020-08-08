@@ -60,7 +60,7 @@ def index():
     name_list = []
     for area in areas:
         name_list.append(area["name"])
-    return render_template('index.html', name_list = name_list)
+    return render_template('index.html', title = 'Home - Will\'s Weather Forecast', name_list = name_list)
 
 @app.route("/<area_name>", methods =['GET'])
 def forecast(area_name):
@@ -78,13 +78,18 @@ def forecast(area_name):
             # Call functions to get data
             avy_data = get_avy_forecast(avalanche_forecast)
             weather_data = get_current_weather(coordinates)
-            # Forecast summary for end of page
+            # Create weather graphs
+            #
+            # Create avalanche info
+            #
+            # Create forecast summary for end of page
             summary = ("<h3>Highlights:</h3>" + avy_data["highlights"] + 
                         "<h3>Avalanche Summary:</h3>" + avy_data["avalancheSummary"] + 
                         "<h3>Snowpack Summary:</h3>" + avy_data["snowpackSummary"] + 
                         "<h3>Forecast Region Summary:</h3>" + avy_data["weatherForecast"] )
             # Return template and vars to pass to Jinja
             return render_template('forecast.html', 
+                                    title = create_header(area["name"]) + ' - Will\'s Weather Forecast', 
                                     header = create_header(area["name"]), 
                                     summary = summary, 
                                     )

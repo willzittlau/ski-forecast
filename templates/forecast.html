@@ -1,0 +1,11 @@
+{%extends 'base.html'%}
+{%block content%}
+    <h1> {{header}} </h1>
+    This is a page that exists
+    {{summary | safe}}
+{%endblock%}
+{%block javascript%}
+    <script type="text/javascript">
+        src = "{{ url_for('static', filename='loading.js') }}"
+    </script>
+{%endblock%}

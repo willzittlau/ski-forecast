@@ -3,51 +3,22 @@ from flask import Flask, render_template, url_for, redirect, abort
 import time
 import json
 import requests
-import traceback
-from werkzeug.wsgi import ClosingIterator
 # root files
 from scripts import *
 from env import *
 
-class AfterResponse:
-    def __init__(self, app=None):
-        self.callbacks = []
-        if app:
-            self.init_app(app)
-
-    def __call__(self, callback):
-        self.callbacks.append(callback)
-        return callback
-
-    def init_app(self, app):
-        # install extension
-        app.after_response = self
-
-        # install middleware
-        app.wsgi_app = AfterResponseMiddleware(app.wsgi_app, self)
-
-    def flush(self): 
-        for fn in self.callbacks:
-            try:
-                fn()
-            except Exception:
-                traceback.print_exc()
-
-class AfterResponseMiddleware:
-    def __init__(self, application, after_response_ext):
-        self.application = application
-        self.after_response_ext = after_response_ext
-
-    def __call__(self, environ, start_response):
-        iterator = self.application(environ, start_response)
-        try:
-            return ClosingIterator(iterator, [self.after_response_ext.flush])
-        except Exception:
-            traceback.print_exc()
-            return iterator
-
+# Initialize app
 app = Flask(__name__)
-AfterResponse(app)
+
+# Configuration
+api.config.from_object(DevConfig())
+#api.config.from_object(ProdConfig())
+
+'''
+# Initialize dB
+db = SQLAlchemy(api)
+from models import *
+'''
 
 # Query API to dynamically generate site (used as global var)
 areas = requests.get('https://skiforecast-api.herokuapp.com/api/v1/areas', auth=(userpass(), userpass())) #os.environ['API_User'], os.environ['API_KEY']
@@ -96,21 +67,6 @@ def forecast(area_name):
     # Requested route doesn't exist in API
     else:
         abort (404)
-
-@app.route("/test", methods =['GET'])
-def test():
-    refresh = 0
-    data = ''
-    @app.after_response
-    def after():
-        data= ''
-        refresh = 0
-        time.sleep(5)
-        data = 'hello again'
-        refresh = 1
-        with app.app_context(), app.test_request_context():
-            return render_template('index.html', data=data, refresh=refresh)
-    return render_template('index.html', data = data, refresh = refresh)
 
 # Run app
 if __name__ == "__main__":

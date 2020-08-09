@@ -59,23 +59,24 @@ def forecast(area_name):
             # Create weather graphs
             #
             # Create avalanche info
-            #
+            avy_danger = get_avy_danger(avy_data)
             # Create forecast summary for end of page
-            summary = ("<h3>Highlights:</h3>" + avy_data["highlights"] + 
-                        "<h3>Avalanche Summary:</h3>" + avy_data["avalancheSummary"] + 
-                        "<h3>Snowpack Summary:</h3>" + avy_data["snowpackSummary"] + 
-                        "<h3>Forecast Region Summary:</h3>" + avy_data["weatherForecast"] )
+            summary = []
+            summary.append("<h3>Highlights:</h3>" + avy_data["highlights"])
+            summary.append("<h3>Avalanche Summary:</h3>" + avy_data["avalancheSummary"])
+            summary.append("<h3>Snowpack Summary:</h3>" + avy_data["snowpackSummary"])
+            summary.append("<h3>Regional Summary:</h3>" + avy_data["weatherForecast"])
             # Return template and vars to pass to Jinja
             return render_template('forecast.html', 
                                     title = create_header(area["name"]) + ' - Will\'s Weather Forecast', 
                                     header = create_header(area["name"]), 
                                     summary = summary, 
-                                    elevation = model_elevation, 
-                                    )
+                                    avy_danger = avy_danger, 
+                                    elevation = model_elevation,)
     # Requested route doesn't exist in API
     else:
         abort (404)
 
 # Run app
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()

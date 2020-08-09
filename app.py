@@ -3,7 +3,9 @@ from flask import Flask, render_template, url_for, redirect, abort
 import time
 import json
 import requests
+import os
 # root files
+from config import ProdConfig, DevConfig
 from scripts import *
 from env import *
 
@@ -11,7 +13,7 @@ from env import *
 app = Flask(__name__)
 
 # Configuration
-api.config.from_object(DevConfig())
+app.config.from_object(DevConfig())
 #api.config.from_object(ProdConfig())
 
 '''
@@ -28,10 +30,15 @@ areas = areas.json()
 def index():
     # Create list, pass to Jinja to generate dynamic links
     global areas
-    name_list = []
+    resort_name_list = []
+    backcountry_name_list = []
     for area in areas:
-        name_list.append(area["name"])
-    return render_template('index.html', title = 'Home - Will\'s Weather Forecast', name_list = name_list)
+        if 'resort' == area["area_type"]:
+            resort_name_list.append(area["name"])
+        elif 'backcountry' == area["area_type"]:
+            backcountry_name_list.append(area["name"])
+    return render_template('index.html', title = 'Home - Will\'s Weather Forecast', 
+                            backcountry_name_list = backcountry_name_list, resort_name_list = resort_name_list)
 
 @app.route("/<area_name>", methods =['GET'])
 def forecast(area_name):
@@ -63,6 +70,7 @@ def forecast(area_name):
                                     title = create_header(area["name"]) + ' - Will\'s Weather Forecast', 
                                     header = create_header(area["name"]), 
                                     summary = summary, 
+                                    elevation = model_elevation, 
                                     )
     # Requested route doesn't exist in API
     else:

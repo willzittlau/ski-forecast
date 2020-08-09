@@ -1,15 +1,22 @@
+<!--Inherit from base template-->
 {%extends 'base.html'%}
+<!--Body-->
 {%block content%}
     <h1> {{header}} </h1>
     This is a page that exists!
     <div class = "weather"> 
         <h2> Weather Graphs</h2>
+        <!--Graph goes here-->
+        <p>Model elevation: {{elevation}}</p>
     </div>
     <div class = "avalanche">
         <h2> Avalanche Forecast</h2>
+        <!--Forecast rating goes here-->
+        <!--Avy problems go here-->
         {{summary | safe}}
     </div>
 {%endblock%}
+<!--JS block-->
 {%block javascript%}
     <script type="text/javascript">
         src = "{{ url_for('static', filename='loading.js') }}"

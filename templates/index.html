@@ -1,17 +1,41 @@
+<!--Inherit from base template-->
 {%extends 'base.html'%}
-
+<!--body-->
 {%block content%}
-    <div class="pure-menu">
-        <h2>Forecast Areas</h2>
-        <ul class="pure-menu-list">
-        {%for name in name_list%}
-            <li class="pure-menu-item">
-                <a href={{ url_for('forecast', area_name=name) }} class="pure-menu-link">{{name}}</a>
-            </li>
-        {%endfor%}
-        </ul>
+    <h1>Forecast Areas</h1>
+    <!--Create two 50% wide grids-->
+    <div class="pure-g">
+        <div class="pure-u-1-2">
+            <div class="l-box">
+            <h2>Backcountry</h2>
+            <div class="pure-menu">
+                <!--Create Backcountry Menu List-->
+                <ul class="pure-menu-list">
+                {%for name in backcountry_name_list%}
+                    <li class="pure-menu-item">
+                        <a href={{ url_for('forecast', area_name=name) }} class="pure-menu-link">{{name}}</a>
+                    </li>
+                {%endfor%}
+                </ul>
+            </div></div>
+        </div>
+        <div class="pure-u-1-2">
+            <div class="l-box">
+            <h2>Resort</h2>
+            <div class="pure-menu">
+                <!--Create Resort Menu List-->
+                <ul class="pure-menu-list">
+                {%for name in resort_name_list%}
+                    <li class="pure-menu-item">
+                        <a href={{ url_for('forecast', area_name=name) }} class="pure-menu-link">{{name}}</a>
+                    </li>
+                {%endfor%}
+                </ul>
+            </div></div></div>
+        </div>
     </div>
 {%endblock%}
+<!--JS block-->
 {%block javascript%}
     <script type="text/javascript">
         src = "{{ url_for('static', filename='loading.js') }}"

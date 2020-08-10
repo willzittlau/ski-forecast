@@ -30,6 +30,7 @@
     </div>
     <div class = "avalanche">
         <h2> Avalanche Forecast</h2>
+        {{date_issued}}
         <h3>Danger Ratings:</h3>
         <div class="pure-g">
         <!--Day1-->
@@ -76,6 +77,10 @@
             </div>
         </div>
         <h3>Problems:</h3>
+        {% for problem in avy_problems %}
+            {{problem | safe}}
+        {% endfor %}
+        <p><b>Confidence: </b> {{confidence}}
         <!--Summary-->
         {{summary[0] | safe}}
         <div class="pure-g">

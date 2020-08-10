@@ -60,6 +60,7 @@ def forecast(area_name):
             #
             # Create avalanche info
             avy_danger = get_avy_danger(avy_data)
+            avy_problems = get_avy_problems(avy_data)
             # Create forecast summary for end of page
             summary = []
             summary.append("<h3>Highlights:</h3>" + avy_data["highlights"])
@@ -72,6 +73,9 @@ def forecast(area_name):
                                     header = create_header(area["name"]), 
                                     summary = summary, 
                                     avy_danger = avy_danger, 
+                                    avy_problems = avy_problems, 
+                                    confidence = avy_data["confidence"], 
+                                    date_issued = 'Date Issued: '+ avy_data["dateIssued"][:10], 
                                     elevation = model_elevation,)
     # Requested route doesn't exist in API
     else:

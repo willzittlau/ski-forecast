@@ -55,6 +55,16 @@ def convert_compass(direction):
         direction = str(direction) + u'\N{DEGREE SIGN}' + ' N'
     return direction
 
+def convert_elevtxt(elevation):
+    elevation = elevation.lower()
+    if elevation == 'alp':
+        elevation = 'Alpine'
+    elif elevation == 'tln':
+        elevation = 'Treeline'
+    elif elevation == 'btl':
+        elevation = 'Below Treeline'
+    return elevation
+
 def create_header(header_name):
     header = header_name
     header = header.title()
@@ -74,6 +84,26 @@ def get_avy_danger(avy_data):
         dangers['dangerRating']['Below Treeline'] = dangers['dangerRating'].pop('btl')
         danger.append(dangers['dangerRating'])
     return date, danger
+
+def get_avy_problems(avy_data):
+    problems_list = []
+    problems_data = avy_data["problems"]
+    for problem in problems_data:
+        output_string = '<h4>' + problem["type"] + '</h4>' + '<p><b>Expected Size = </b>'
+        for key, value in problem["expectedSize"].items():
+            output_string += key.title() + ': ' + value + ', '
+        output_string += '<b>Likelihood = </b>' + problem["likelihood"] + '</p><p><b>Aspects = </b>'
+        for aspect in problem["aspects"]:
+            output_string += aspect + ', '
+        output_string += '<b>Elevations = </b>'
+        for elevation in problem["elevations"]:
+            elevation = convert_elevtxt(elevation)
+            print(elevation)
+            output_string += elevation + ', '
+        output_string = output_string[:-2]
+        output_string += '</p><p>' + problem["comment"] + '</p>'
+        problems_list.append(output_string)
+    return problems_list
 
 def daily_weather(coordinates):
     json.dumps()

@@ -11,9 +11,9 @@
             <div class="pure-menu">
                 <!--Create Backcountry Menu List-->
                 <ul class="pure-menu-list">
-                {%for name in backcountry_name_list%}
+                {%for url, name in backcountry_name_list.items() |sort%}
                     <li class="pure-menu-item">
-                        <a href={{ url_for('forecast', area_name=name) }} class="pure-menu-link">{{name}}</a>
+                        <a href={{ url_for('forecast', area_name=url) }} class="pure-menu-link">{{name}}</a>
                     </li>
                 {%endfor%}
                 </ul>
@@ -25,9 +25,9 @@
             <div class="pure-menu">
                 <!--Create Resort Menu List-->
                 <ul class="pure-menu-list">
-                {%for name in resort_name_list%}
+                {%for url, name in resort_name_list.items() |sort%}
                     <li class="pure-menu-item">
-                        <a href={{ url_for('forecast', area_name=name) }} class="pure-menu-link">{{name}}</a>
+                        <a href={{ url_for('forecast', area_name=url) }} class="pure-menu-link">{{name}}</a>
                     </li>
                 {%endfor%}
                 </ul>

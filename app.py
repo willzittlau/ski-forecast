@@ -30,13 +30,17 @@ areas = areas.json()
 def index():
     # Create list, pass to Jinja to generate dynamic links
     global areas
-    resort_name_list = []
-    backcountry_name_list = []
+    resort_name_list = {}
+    backcountry_name_list = {}
     for area in areas:
         if 'resort' == area["area_type"]:
-            resort_name_list.append(area["name"])
+            url = area["name"]
+            name = create_header(area["name"])
+            resort_name_list.update({url:name})
         elif 'backcountry' == area["area_type"]:
-            backcountry_name_list.append(area["name"])
+            url = area["name"]
+            name = create_header(area["name"])
+            backcountry_name_list.update({url:name})
     return render_template('index.html', title = 'Home - Will\'s Weather Forecast', 
                             backcountry_name_list = backcountry_name_list, resort_name_list = resort_name_list)
 

@@ -4,81 +4,83 @@
 {%block content%}
     <h1> {{header}} </h1>
     <div class = "weather"> 
-        <h2>Weather Graphs</h2>
-        <div class="pure-g">
-            <div class="pure-u-1-3">
-                <div class="l-box">
+        <div class ="weathergraph">
+            <h2>Weather Graphs</h2>
+            <div class="pure-g">
+                <div class="pure-u-1-2">
                     <h3>48H Forecast</h3>
-                    {{plot | safe}}
+                    <div align="center">
+                            {{plot | safe}}
+                    </div>
+                </div>
+                <div class="pure-u-1-2">
+                    <h3>Historical</h3>
+                    <div align="center">
+                        {{plot | safe}}
+                    </div>
                 </div>
             </div>
-            <div class="pure-u-1-3">
-                <div class="l-box">
-                    <h3>Past 72H</h3>
-                    <!--Graph goes here-->
-                </div>
-            </div>
-            <div class="pure-u-1-3">
-                <div class="l-box">
-                    <h3>Past Week</h3>
-                    <!--Graph goes here-->
-                </div>
-            </div>
-        </div>
             <p>Model elevation: {{elevation}}</p>
+        </div>
         {{summary[3] | safe}}
     </div>
     <div class = "avalanche">
-        <h2> Avalanche Forecast</h2>
-        {{date_issued}}
-        <h3>Danger Ratings:</h3>
-        <div class="pure-g">
-        <!--Day1-->
-            <div class="pure-u-1-3">
-                <div class="l-box">
-                    {{avy_danger[0][0] | safe}}
-                    <table class="pure-table pure-table-bordered" id="day1">
-                    {% for key, value in avy_danger[1][0].items() %}
-                        <tr>
-                            <td class="elev"> {{ key }} </td>
-                            <td class="danger"> {{ value }} </td>
-                        </tr>
-                    {% endfor %}
-                    </table>
+        <div class ="avytitle">
+            <h2> Avalanche Forecast</h2>
+            <p>{{date_issued}}</p>
+        </div>
+        <div class="dangerratings">
+            <h3>Danger Ratings:</h3>
+            <div class="pure-g">
+            <!--Day1-->
+                <div class="pure-u-1-3">
+                    <div class="l-box">
+                        {{avy_danger[0][0] | safe}}
+                        <table class="pure-table pure-table-bordered" id="day1">
+                        {% for key, value in avy_danger[1][0].items() %}
+                            <tr>
+                                <td class="elev"> {{ key }} </td>
+                                <td class="danger"> {{ value }} </td>
+                            </tr>
+                        {% endfor %}
+                        </table>
+                    </div>
                 </div>
-            </div>
-        <!--Day2-->
-            <div class="pure-u-1-3">
-                <div class="l-box">
-                    {{avy_danger[0][1] | safe}}
-                    <table class="pure-table pure-table-bordered" id="day2">
-                    {% for key, value in avy_danger[1][1].items() %}
-                        <tr>
-                            <td class="elev"> {{ key }} </td>
-                            <td class="danger"> {{ value }} </td>
-                        </tr>
-                    {% endfor %}
-                    </table>
+            <!--Day2-->
+                <div class="pure-u-1-3">
+                    <div class="l-box">
+                        {{avy_danger[0][1] | safe}}
+                        <table class="pure-table pure-table-bordered" id="day2">
+                        {% for key, value in avy_danger[1][1].items() %}
+                            <tr>
+                                <td class="elev"> {{ key }} </td>
+                                <td class="danger"> {{ value }} </td>
+                            </tr>
+                        {% endfor %}
+                        </table>
+                    </div>
                 </div>
-            </div>
-        <!--Day3-->
-            <div class="pure-u-1-3">
-                <div class="l-box">
-                    {{avy_danger[0][2] | safe}}
-                    <table class="pure-table pure-table-bordered" id="day3">
-                    {% for key, value in avy_danger[1][2].items() %}
-                        <tr>
-                            <td class="elev"> {{ key }} </td>
-                            <td class="danger"> {{ value }} </td>
-                        </tr>
-                    {% endfor %}
-                    </table>
+            <!--Day3-->
+                <div class="pure-u-1-3">
+                    <div class="l-box">
+                        {{avy_danger[0][2] | safe}}
+                        <table class="pure-table pure-table-bordered" id="day3">
+                        {% for key, value in avy_danger[1][2].items() %}
+                            <tr>
+                                <td class="elev"> {{ key }} </td>
+                                <td class="danger"> {{ value }} </td>
+                            </tr>
+                        {% endfor %}
+                        </table>
+                    </div>
                 </div>
-            </div>
+            </div><br>
         </div>
         <h3>Problems:</h3>
         {% for problem in avy_problems %}
-            {{problem | safe}}
+            <div class ="avyproblem">
+                {{problem | safe}}
+            </div>
         {% endfor %}
         <p><b>Confidence: </b> {{confidence}}
         <!--Summary-->

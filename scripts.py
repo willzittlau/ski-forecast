@@ -1,3 +1,4 @@
+#imports
 from bs4 import BeautifulSoup
 import pandas as pd
 import requests
@@ -5,7 +6,7 @@ import json
 import lxml
 import re
 import datetime
-
+#graphing
 from bokeh.plotting import figure, output_file, show
 from bokeh.models import ColumnDataSource, Band, Tabs, Panel
 from bokeh.models.tools import HoverTool
@@ -159,7 +160,7 @@ def daily_weather(coordinates):
 def create_graph(df):
     source = ColumnDataSource(df)
 
-    p1 = figure(x_axis_type='datetime', plot_width=800, plot_height=400, toolbar_location=None)
+    p1 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location=None)
     p1.title.text = '48H Temperature'
     p1.xaxis.axis_label = 'Date/Time'
     p1.yaxis.axis_label = 'Temperature \N{DEGREE SIGN}C'
@@ -172,7 +173,7 @@ def create_graph(df):
 
     tab1 = Panel(child=p1, title="Temperature")
 
-    p2 = figure(x_axis_type='datetime', plot_width=800, plot_height=400, toolbar_location=None)
+    p2 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location=None)
     p2.title.text = '48H Precipitation'
     p2.xaxis.axis_label = 'Date/Time'
     p2.yaxis.axis_label = 'Amount (mm/cm)'
@@ -192,7 +193,7 @@ def create_graph(df):
 
     tab2 = Panel(child=p2, title="Precipitation")
 
-    p3 = figure(x_axis_type='datetime', plot_width=800, plot_height=400, toolbar_location=None)
+    p3 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location=None)
     p3.title.text = '48H Wind/Cloud'
     p3.xaxis.axis_label = 'Date/Time'
     p3.yaxis.axis_label = 'Speed (km/h) / % Coverage'

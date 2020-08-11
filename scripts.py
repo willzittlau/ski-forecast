@@ -6,6 +6,12 @@ import lxml
 import re
 import datetime
 
+from bokeh.plotting import figure, output_file, show
+from bokeh.models import ColumnDataSource, Band, Tabs, Panel
+from bokeh.models.tools import HoverTool
+from bokeh.resources import CDN
+from bokeh.embed import file_html
+
 def get_current_weather(coordinates):
     # Query SpotWX
     response = requests.get('https://spotwx.com/products/grib_index.php?model=gem_lam_continental&%s&tz=America/Vancouver&display=table' % coordinates).text
@@ -150,6 +156,64 @@ def daily_weather(coordinates):
     db.session.add
     db.session.commit()
 
+def create_graph(df):
+    source = ColumnDataSource(df)
+
+    p1 = figure(x_axis_type='datetime', plot_width=800, plot_height=400, toolbar_location=None)
+    p1.title.text = '48H Temperature'
+    p1.xaxis.axis_label = 'Date/Time'
+    p1.yaxis.axis_label = 'Temperature \N{DEGREE SIGN}C'
+
+    glyph_1 = p1.line(x= 'DATETIME', y='TMP',source=source, legend_label='Temperature', color='OrangeRed', line_width=1.5)
+    glyph_1a = p1.scatter(x= 'DATETIME', y='TMP',source=source, line_color="darkRed", fill_color="OrangeRed", size=4)
+
+    hover1 = HoverTool(renderers=[glyph_1], tooltips=[('\N{DEGREE SIGN}C', '@TMP')])
+    p1.add_tools(hover1)
+
+    tab1 = Panel(child=p1, title="Temperature")
+
+    p2 = figure(x_axis_type='datetime', plot_width=800, plot_height=400, toolbar_location=None)
+    p2.title.text = '48H Precipitation'
+    p2.xaxis.axis_label = 'Date/Time'
+    p2.yaxis.axis_label = 'Amount (mm/cm)'
+
+    glyph_1 = p2.line(x= 'DATETIME', y='RQP',source=source, legend_label='Total Rain', color='blue', line_width=1.5)
+    glyph_1a = p2.scatter(x= 'DATETIME', y='RQP',source=source, line_color="darkblue", fill_color="blue", size=4)
+    glyph_2 = p2.line(x= 'DATETIME', y='SQP',source=source, legend_label='Total Snow', color='lightgrey', line_width=1.5)
+    glyph_2a = p2.scatter(x= 'DATETIME', y='SQP',source=source, line_color="grey", fill_color="lightgrey", size=4)
+
+    p2.varea(x='DATETIME', y1='SQP', source=source, color='WhiteSmoke', alpha=0.8)
+    band = Band(base='DATETIME', upper='RQP', source=source, level='overlay', fill_alpha=0.3, fill_color='SkyBlue')
+    p2.add_layout(band)
+
+    hover2a = HoverTool(renderers=[glyph_1], tooltips=[('mm Rain', '@RQP')])
+    hover2b = HoverTool(renderers=[glyph_2], tooltips=[('cm Snow', '@SQP')])
+    p2.add_tools(hover2a, hover2b)
+
+    tab2 = Panel(child=p2, title="Precipitation")
+
+    p3 = figure(x_axis_type='datetime', plot_width=800, plot_height=400, toolbar_location=None)
+    p3.title.text = '48H Wind/Cloud'
+    p3.xaxis.axis_label = 'Date/Time'
+    p3.yaxis.axis_label = 'Speed (km/h) / % Coverage'
+
+    glyph_1 = p3.line(x= 'DATETIME', y='WS',source=source, legend_label='Wind Speed', color='green', line_width=1.5)
+    glyph_1a = p3.scatter(x= 'DATETIME', y='WS',source=source, line_color="darkgreen", fill_color="green", size=4)
+    glyph_2 = p3.line(x= 'DATETIME', y='CLOUD',source=source, legend_label='Cloud Cover', color='grey', line_width=1.5)
+    glyph_2a = p3.scatter(x= 'DATETIME', y='CLOUD',source=source, line_color="darkgrey", fill_color="grey", size=4)
+
+    band = Band(base='DATETIME', upper='CLOUD', source=source, level='underlay', fill_alpha=0.3, fill_color='lightgrey')
+    p3.add_layout(band)
+
+    hover3a = HoverTool(renderers=[glyph_1], tooltips=[('Wind Speed', '@WS'), ('Wind Direction', '@WD')])
+    hover3b = HoverTool(renderers=[glyph_2], tooltips=[('% Coverage', '@CLOUD')])
+    p3.add_tools(hover3a, hover3b)
+
+    tab3 = Panel(child=p3, title="Wind/Cloud")
+
+    plot = Tabs(tabs=[tab1, tab2 , tab3])
+
+    html = file_html(plot, CDN)
+    return html
+
 df = get_current_weather("lat=62.11416&lon=-121.19238")
-for i in get_averages_totals(df):
-    print(i)

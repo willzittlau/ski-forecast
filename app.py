@@ -61,7 +61,7 @@ def forecast(area_name):
             avy_data = get_avy_forecast(avalanche_forecast)
             weather_data = get_current_weather(coordinates)
             # Create weather graphs
-            #
+            plot = create_graph(weather_data)
             # Create avalanche info
             avy_danger = get_avy_danger(avy_data)
             avy_problems = get_avy_problems(avy_data)
@@ -75,6 +75,7 @@ def forecast(area_name):
             return render_template('forecast.html', 
                                     title = create_header(area["name"]) + ' - Will\'s Weather Forecast', 
                                     header = create_header(area["name"]), 
+                                    plot = plot, 
                                     summary = summary, 
                                     avy_danger = avy_danger, 
                                     avy_problems = avy_problems, 

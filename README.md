@@ -3,7 +3,7 @@
 
 This is a personal weather forecast app I made to streamline the process when I'm looking at which areas to ski in the winter. 
 
-It's written using Flask in python3, and deployed to Heroku using MongoDB as the database. It queries its sister API to dynamically generate page content. Jinja is used along with some vanilla JS to create the dynamic content. Add in some HTML for structure and the CSS is mainly from Pure-CSS.
+It's written using Flask in python3, and deployed to Heroku. It queries its sister API to dynamically generate site contents. Bokeh is the graphing library, and is used along with Jinja and some jQuery to create the dynamic content. Add in some HTML for structure and the light amount of CSS is mainly from Pure-CSS.
 
 ## Usage
 

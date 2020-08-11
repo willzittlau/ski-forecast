@@ -8,10 +8,19 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
 </head>
+<noscript>
+        <h1>Will's Weather Forecast</h1>
+        <p>
+            For full functionality of this site, it is necessary to enable
+            JavaScript. Here are the
+            <a href="https://www.enable-javascript.com/">
+                instructions how to enable JavaScript in your web browser</a>.
+        </p>
+</noscript>
 <body>
 {%block content%}
 {%endblock%}
-</body>
 {%block javascript%}
 {%endblock%}
+</body>
 </html>

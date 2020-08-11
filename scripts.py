@@ -98,7 +98,6 @@ def get_avy_problems(avy_data):
         output_string += '<b>Elevations = </b>'
         for elevation in problem["elevations"]:
             elevation = convert_elevtxt(elevation)
-            print(elevation)
             output_string += elevation + ', '
         output_string = output_string[:-2]
         output_string += '</p><p>' + problem["comment"] + '</p>'

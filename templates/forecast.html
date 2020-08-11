@@ -37,11 +37,11 @@
             <div class="pure-u-1-3">
                 <div class="l-box">
                     {{avy_danger[0][0] | safe}}
-                    <table class="pure-table pure-table-bordered">
+                    <table class="pure-table pure-table-bordered" id="day1">
                     {% for key, value in avy_danger[1][0].items() %}
                         <tr>
-                            <td> {{ key }} </td>
-                            <td> {{ value }} </td>
+                            <td class="elev"> {{ key }} </td>
+                            <td class="danger"> {{ value }} </td>
                         </tr>
                     {% endfor %}
                     </table>
@@ -51,11 +51,11 @@
             <div class="pure-u-1-3">
                 <div class="l-box">
                     {{avy_danger[0][1] | safe}}
-                    <table class="pure-table pure-table-bordered">
+                    <table class="pure-table pure-table-bordered" id="day2">
                     {% for key, value in avy_danger[1][1].items() %}
                         <tr>
-                            <td> {{ key }} </td>
-                            <td> {{ value }} </td>
+                            <td class="elev"> {{ key }} </td>
+                            <td class="danger"> {{ value }} </td>
                         </tr>
                     {% endfor %}
                     </table>
@@ -65,11 +65,11 @@
             <div class="pure-u-1-3">
                 <div class="l-box">
                     {{avy_danger[0][2] | safe}}
-                    <table class="pure-table pure-table-bordered">
+                    <table class="pure-table pure-table-bordered" id="day3">
                     {% for key, value in avy_danger[1][2].items() %}
                         <tr>
-                            <td> {{ key }} </td>
-                            <td> {{ value }} </td>
+                            <td class="elev"> {{ key }} </td>
+                            <td class="danger"> {{ value }} </td>
                         </tr>
                     {% endfor %}
                     </table>
@@ -102,7 +102,6 @@
 {%endblock%}
 <!--JS block-->
 {%block javascript%}
-    <script type="text/javascript">
-        src = "{{ url_for('static', filename='loading.js') }}"
-    </script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src = "{{ url_for('static', filename='table.js') }}"></script>
 {%endblock%}

@@ -47,6 +47,7 @@ def get_current_weather(coordinates):
         df.at[i, 'CLOUD'] = float(df.at[i, 'CLOUD'])
         df.at[i, 'RQP'] = float(df.at[i, 'RQP'])
         df.at[i, 'SQP'] = float(df.at[i, 'SQP'])
+        df.at[i, 'SQP'] *= 10.0
         df.at[i, 'DATE'] = datetime.datetime.strptime(df.at[i, 'DATE'], '%Y/%m/%d').date()
         df.at[i, 'TIME'] = datetime.datetime.strptime(df.at[i, 'TIME'], '%H:%M').time()
         df.at[i, 'DATETIME'] = datetime.datetime.combine(df.at[i, 'DATE'], df.at[i, 'TIME'])
@@ -157,7 +158,7 @@ def daily_weather(coordinates):
     db.session.add
     db.session.commit()
 
-def create_graph(df):
+def create_todays_graph(df):
     source = ColumnDataSource(df)
 
     p1 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location=None)

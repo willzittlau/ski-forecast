@@ -3,24 +3,22 @@
 <!--Body-->
 {%block content%}
     <h1> {{header}} </h1>
-    <div class = "weather"> 
+    <div class = "weather">
         <div class ="weathergraph">
             <h2>Weather Graphs</h2>
-            <div class="pure-g">
-                <div class="pure-u-1-2">
-                    <h3>48H Forecast</h3>
-                    <div align="center">
-                            {{plot | safe}}
-                    </div>
-                </div>
-                <div class="pure-u-1-2">
-                    <h3>Historical</h3>
-                    <div align="center">
-                        {{plot | safe}}
-                    </div>
-                </div>
+            <div class= "button-block">
+                <button class="pure-button" onclick="show_forecast()">Hide/Show Forecast</button>   
+                <button class="pure-button" onclick="show_historical()">Hide/Show Historical</button>
             </div>
-            <p>Model elevation: {{elevation}}</p>
+            <div id="48H" align="center">
+                <h3>48H Forecast</h3>
+                {{forecast_plot | safe}}
+            </div><br>
+            <div id="72H" align="center">
+                <h3>72H Historical</h3>
+                {{historical_plot | safe}}
+            </div>
+            <p>Model(s) elevation: {{elevation}}</p>
         </div>
         {{summary[3] | safe}}
     </div>
@@ -106,4 +104,5 @@
 {%block javascript%}
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" src = "{{ url_for('static', filename='table.js') }}"></script>
+<script type="text/javascript" src = "{{ url_for('static', filename='graphs.js') }}"></script>
 {%endblock%}

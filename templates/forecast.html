@@ -10,13 +10,19 @@
                 <button class="pure-button" onclick="show_forecast()">Hide/Show Forecast</button>   
                 <button class="pure-button" onclick="show_historical()">Hide/Show Historical</button>
             </div>
-            <div id="48H" align="center">
-                <h3>48H Forecast</h3>
-                {{forecast_plot | safe}}
-            </div><br>
-            <div id="72H" align="center">
-                <h3>72H Historical</h3>
-                {{historical_plot | safe}}
+            <div class="pure-g">
+                <div class="pure-u-1-2">
+                    <div id="48H" align="center">
+                        <h3>48H Forecast</h3>
+                        {{forecast_plot | safe}}
+                    </div>
+                </div>
+                <div class="pure-u-1-2">
+                    <div id="72H" align="center">
+                        <h3>72H Historical</h3>
+                        {{historical_plot | safe}}
+                    </div>
+                </div>
             </div>
             <p>Model(s) elevation: {{elevation}}</p>
         </div>

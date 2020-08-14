@@ -13,8 +13,8 @@ from scripts import *
 app = Flask(__name__)
 
 # Configuration
-app.config.from_object(DevConfig())
-#api.config.from_object(ProdConfig())
+#app.config.from_object(DevConfig())
+api.config.from_object(ProdConfig())
 
 '''
 # Initialize dB

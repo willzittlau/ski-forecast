@@ -2,101 +2,111 @@
 {%extends 'base.html'%}
 <!--Body-->
 {%block content%}
-    <h1> {{header}} </h1>
+    <h1><u> {{header}} </u></h1>
+    <!--Weather forecast section-->
     <div class = "weather">
         <div class ="weathergraph">
             <h2>Weather Graphs</h2>
+            <!--Hide/Show buttons-->
             <div class= "button-block">
                 <button class="pure-button" onclick="show_forecast()">Hide/Show Forecast</button>   
                 <button class="pure-button" onclick="show_historical()">Hide/Show Historical</button>
             </div>
             <div class="pure-g">
-                <div class="pure-u-1-2">
-                    <div id="48H" align="center">
+                <!--Forecast Graph-->
+                <div class="pure-u-1 pure-u-md-1-2">
+                    <div class="l-box" id="48H" align="center">
                         <h3>48H Forecast</h3>
                         {{forecast_plot | safe}}
                     </div>
                 </div>
-                <div class="pure-u-1-2">
-                    <div id="72H" align="center">
+                <!--Forecast Graph-->
+                <div class="pure-u-1 pure-u-md-1-2">
+                    <div class="l-box" id="72H" align="center">
                         <h3>72H Historical</h3>
                         {{historical_plot | safe}}
                     </div>
                 </div>
             </div>
+            <!--Model Elevation-->
             <p>Model(s) elevation: {{elevation}}</p>
         </div>
-        {{summary[3] | safe}}
+        <div class="weather_summary">
+            {{summary[3] | safe}}
+        </div>
     </div>
+    <!--Avy forecast section-->
     <div class = "avalanche">
         <div class ="avytitle">
             <h2> Avalanche Forecast</h2>
             <p>{{date_issued}}</p>
         </div>
+        <!--Danger Ratings Forecast-->
         <div class="dangerratings">
             <h3>Danger Ratings:</h3>
             <div class="pure-g">
             <!--Day1-->
-                <div class="pure-u-1-3">
-                    <div class="l-box">
-                        {{avy_danger[0][0] | safe}}
-                        <table class="pure-table pure-table-bordered" id="day1">
-                        {% for key, value in avy_danger[1][0].items() %}
-                            <tr>
-                                <td class="elev"> {{ key }} </td>
-                                <td class="danger"> {{ value }} </td>
-                            </tr>
-                        {% endfor %}
-                        </table>
-                    </div>
+                <div class="pure-u-1 pure-u-md-1-3">
+                    {{avy_danger[0][0] | safe}}
+                    <table class="pure-table pure-table-bordered" id="day1">
+                    {% for key, value in avy_danger[1][0].items() %}
+                        <tr>
+                            <td class="elev"> {{ key }} </td>
+                            <td class="danger"> {{ value }} </td>
+                        </tr>
+                    {% endfor %}
+                    </table>
                 </div>
             <!--Day2-->
-                <div class="pure-u-1-3">
-                    <div class="l-box">
-                        {{avy_danger[0][1] | safe}}
-                        <table class="pure-table pure-table-bordered" id="day2">
-                        {% for key, value in avy_danger[1][1].items() %}
-                            <tr>
-                                <td class="elev"> {{ key }} </td>
-                                <td class="danger"> {{ value }} </td>
-                            </tr>
-                        {% endfor %}
-                        </table>
-                    </div>
+                <div class="pure-u-1 pure-u-md-1-3">
+                    {{avy_danger[0][1] | safe}}
+                    <table class="pure-table pure-table-bordered" id="day2">
+                    {% for key, value in avy_danger[1][1].items() %}
+                        <tr>
+                            <td class="elev"> {{ key }} </td>
+                            <td class="danger"> {{ value }} </td>
+                        </tr>
+                    {% endfor %}
+                    </table>
                 </div>
             <!--Day3-->
-                <div class="pure-u-1-3">
-                    <div class="l-box">
-                        {{avy_danger[0][2] | safe}}
-                        <table class="pure-table pure-table-bordered" id="day3">
-                        {% for key, value in avy_danger[1][2].items() %}
-                            <tr>
-                                <td class="elev"> {{ key }} </td>
-                                <td class="danger"> {{ value }} </td>
-                            </tr>
-                        {% endfor %}
-                        </table>
-                    </div>
+                <div class="pure-u-1 pure-u-md-1-3">
+                    {{avy_danger[0][2] | safe}}
+                    <table class="pure-table pure-table-bordered" id="day3">
+                    {% for key, value in avy_danger[1][2].items() %}
+                        <tr>
+                            <td class="elev"> {{ key }} </td>
+                            <td class="danger"> {{ value }} </td>
+                        </tr>
+                    {% endfor %}
+                    </table>
                 </div>
             </div><br>
         </div>
+        <!--Problems-->
         <h3>Problems:</h3>
         {% for problem in avy_problems %}
             <div class ="avyproblem">
                 {{problem | safe}}
             </div>
         {% endfor %}
-        <p><b>Confidence: </b> {{confidence}}
-        <!--Summary-->
-        {{summary[0] | safe}}
+        <!--Confidence-->
+        <div class="confidence">
+            <p><b>Confidence: </b> {{confidence}}</p>
+        </div>
+        <!--Highlights-->
+        <div class="highlights">
+            {{summary[0] | safe}}
+        </div>
+        <!--Weather / Snowpack Summary-->
         <div class="pure-g">
-            <div class="pure-u-1-2">
-                <div class="l-box">
+            <div class="pure-u-1 pure-u-md-1-2">
+                <div class="avy_summary">
                     {{summary[1] | safe}}
                 </div>
             </div>
-            <div class="pure-u-1-2">
-                <div class="l-box">
+            <div class="pure-u-1 pure-u-md-1-2">
+                <div class="snow_summary">
                     {{summary[2] | safe}}
                 </div>
             </div>

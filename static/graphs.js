@@ -1,3 +1,5 @@
+//Hide / Show Graphs button
+
 function show_forecast() {
     var x = document.getElementById("48H");
     if (x.style.display === "none") {

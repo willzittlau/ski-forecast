@@ -135,7 +135,7 @@ def get_avy_problems(avy_data):
     problems_data = avy_data["problems"]
     # Write problem type and expected size
     for problem in problems_data:
-        output_string = '<h4>' + problem["type"] + '</h4>' + '<p><b>Expected Size = </b>'
+        output_string = '<h4><u>' + problem["type"] + '</u></h4>' + '<p><b>Expected Size = </b>'
         for key, value in problem["expectedSize"].items():
             output_string += key.title() + ': ' + value + ', '
         # Write Likelihood and Aspects

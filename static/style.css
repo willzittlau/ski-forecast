@@ -1,5 +1,10 @@
-h1, h2, h3 {
+h1, h2, h3, .dangerratings h4, .avytitle p, .weathergraph, .button-block {
     text-align: center;
+}
+
+table { 
+    width: 70%;
+    border-collapse: collapse;
 }
 
 .pure-g, .pure-table, .pure-table-bordered{
@@ -8,18 +13,41 @@ h1, h2, h3 {
     margin-right:auto;
 }
 
+.snow_summary, .avy_summary {
+    text-align: left;
+    padding: 0.5em;
+}
+
+.l-box {
+    padding: 2em;
+}
+
 .weather, .avalanche{
     border-bottom: 1.5px solid black
 }
 
-.weathergraph, .avyproblem, .dangerratings, .avytitle{
+.weathergraph, .avyproblem, .dangerratings, .confidence, .highlights{
     border-bottom: 1px dashed darkgray;
 }
 
-.avytitle p, .weathergraph, .button-block{
-    text-align: center;
+.weathergraph, .avyproblem, .confidence, .highlights, .weather_summary{
+    padding: 0.5em;
 }
 
-.dangerratings h4{
-    text-align: center;
+@media (min-width: 568px) {
+    .avy_summary{
+        border-right: 1px dashed darkgray;
+    }
+}
+
+@media (min-width: 568px) {
+    .snow_summary{
+        border-left: 1px dashed darkgray;
+    }
+}
+
+@media (max-width: 568px) {
+    .avy_summary {
+        border-bottom: 1px dashed darkgray;
+    }
 }

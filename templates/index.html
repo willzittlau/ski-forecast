@@ -6,8 +6,7 @@
     <!--Create two 50% wide grids-->
     <div class="pure-g">
         <div class="pure-u-1-2">
-            <div class="l-box">
-            <h2>Backcountry</h2>
+        <h2>Backcountry</h2>
             <div class="pure-menu">
                 <!--Create Backcountry Menu List-->
                 <ul class="pure-menu-list">
@@ -17,11 +16,10 @@
                     </li>
                 {%endfor%}
                 </ul>
-            </div></div>
+            </div>
         </div>
         <div class="pure-u-1-2">
-            <div class="l-box">
-            <h2>Resort</h2>
+        <h2>Resort</h2>
             <div class="pure-menu">
                 <!--Create Resort Menu List-->
                 <ul class="pure-menu-list">
@@ -31,13 +29,7 @@
                     </li>
                 {%endfor%}
                 </ul>
-            </div></div></div>
+            </div>
         </div>
     </div>
-{%endblock%}
-<!--JS block-->
-{%block javascript%}
-    <script type="text/javascript">
-        src = "{{ url_for('static', filename='loading.js') }}"
-    </script>
 {%endblock%}

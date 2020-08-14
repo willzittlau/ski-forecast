@@ -18,12 +18,12 @@ app.config.from_object(ProdConfig())
 
 '''
 # Initialize dB
-db = SQLAlchemy(api)
+db = SQLAlchemy(app)
 from models import *
 '''
 
 # Query API to dynamically generate site (used as global var)
-areas = requests.get('https://skiforecast-api.herokuapp.com/api/v1/areas', auth=(s.environ['API_User'], os.environ['API_KEY'])) #(userpass(), userpass()))
+areas = requests.get('https://skiforecast-api.herokuapp.com/api/v1/areas', auth=(os.environ['API_User'], os.environ['API_KEY'])) #(userpass(), userpass()))
 areas = areas.json()
 
 @app.route("/", methods =['GET'])

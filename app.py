@@ -7,7 +7,7 @@ import os
 # root files
 from config import ProdConfig, DevConfig
 from scripts import *
-from env import *
+#from env import *
 
 # Initialize app
 app = Flask(__name__)
@@ -23,7 +23,7 @@ from models import *
 '''
 
 # Query API to dynamically generate site (used as global var)
-areas = requests.get('https://skiforecast-api.herokuapp.com/api/v1/areas', auth=(userpass(), userpass())) #os.environ['API_User'], os.environ['API_KEY']
+areas = requests.get('https://skiforecast-api.herokuapp.com/api/v1/areas', auth=(s.environ['API_User'], os.environ['API_KEY'])) #(userpass(), userpass()))
 areas = areas.json()
 
 @app.route("/", methods =['GET'])

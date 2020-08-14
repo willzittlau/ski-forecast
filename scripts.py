@@ -8,7 +8,8 @@ import re
 import datetime
 #graphing
 from bokeh.plotting import figure, output_file, show
-from bokeh.models import ColumnDataSource, Band, Tabs, Panel
+from bokeh.models import ColumnDataSource, Band, Tabs, Panel, LinearAxis, Range1d
+from bokeh.models.formatters import DatetimeTickFormatter
 from bokeh.models.tools import HoverTool
 from bokeh.resources import CDN
 from bokeh.embed import file_html
@@ -33,11 +34,6 @@ def get_current_weather(coordinates):
                     "DPT", "RH", "WS", "WD", "APCP", "CLOUD", 
                     "SLP", "PTYPE", "RQP", "SQP", "FQP", "IQP", 
                     "WS925", "WD925", "TMP850", "WS850", "WD850", "4LFTX"], data = df)
-    df = df.drop(columns=
-                    ["DATETIME", "DPT", "RH", "APCP", 
-                    "SLP", "PTYPE", "FQP", "IQP", 
-                    "WS925", "WD925", "TMP850", 
-                    "WS850", "WD850", "4LFTX"])
     # Correct data types from str input
     df["DATETIME"] = ''
     for i in range (0,len(df['TIME'])):
@@ -47,7 +43,48 @@ def get_current_weather(coordinates):
         df.at[i, 'CLOUD'] = float(df.at[i, 'CLOUD'])
         df.at[i, 'RQP'] = float(df.at[i, 'RQP'])
         df.at[i, 'SQP'] = float(df.at[i, 'SQP'])
+        df.at[i, 'FQP'] = float(df.at[i, 'FQP'])
+        df.at[i, 'IQP'] = float(df.at[i, 'IQP'])
         df.at[i, 'SQP'] *= 10.0
+        df.at[i, 'DATE'] = datetime.datetime.strptime(df.at[i, 'DATE'], '%Y/%m/%d').date()
+        df.at[i, 'TIME'] = datetime.datetime.strptime(df.at[i, 'TIME'], '%H:%M').time()
+        df.at[i, 'DATETIME'] = datetime.datetime.combine(df.at[i, 'DATE'], df.at[i, 'TIME'])
+    return df
+
+def get_NAM_weather(coordinates):
+    # Query SpotWX
+    response = requests.get('https://spotwx.com/products/grib_index.php?model=nam_awphys&%s&tz=America/Vancouver&display=table' % coordinates).text
+    soup = BeautifulSoup(response, "lxml")
+    scripts = str(soup.find_all('script', text = re.compile("var aDataSet =")))
+    # Regex parsing
+    m = re.search(r'\[.*\](?= )', scripts)
+    m = m.group(0)
+    data = re.findall(r'\[(.*?)\]', m)
+    df = []
+    for sets in data:
+        sets = sets.split('\',\'')
+        for s in sets:
+            s = s.replace('\'', '')
+        df.append(sets)
+    # Create df and drop unwanted colmuns
+    df = pd.DataFrame(columns = ["DATETIME", "DATE", "TIME", "TMP", 
+                    "DPT", "RH", "WS", "WD", "WG", "APCP", "CLOUD", 
+                    "SLP", "PTYPE", "RQP", "SQP", "FQP", "IQP",
+                    "WS925", "WD925", "TMP850", "WS850", "WD850", "4LFTX", "HGT_0C_DB", "HGT_0C_WB"], data = df)
+    # Correct data types from str input
+    df["DATETIME"] = ''
+    for i in range (0,len(df['DATETIME'])):
+        df.at[i, 'WD'] = convert_compass(df.at[i, 'WD'])
+        df.at[i, 'TMP'] = float(df.at[i, 'TMP'])
+        df.at[i, 'WS'] = float(df.at[i, 'WS'])
+        df.at[i, 'WG'] = float(df.at[i, 'WG'])
+        df.at[i, 'CLOUD'] = float(df.at[i, 'CLOUD'])
+        df.at[i, 'RQP'] = float(df.at[i, 'RQP'])
+        df.at[i, 'SQP'] = float(df.at[i, 'SQP'])
+        df.at[i, 'FQP'] = float(df.at[i, 'FQP'])
+        df.at[i, 'IQP'] = float(df.at[i, 'IQP'])
+        df.at[i, 'SQP'] *= 10.0
+        df.at[i, 'HGT_0C_DB'] = int(df.at[i, 'HGT_0C_DB'])
         df.at[i, 'DATE'] = datetime.datetime.strptime(df.at[i, 'DATE'], '%Y/%m/%d').date()
         df.at[i, 'TIME'] = datetime.datetime.strptime(df.at[i, 'TIME'], '%H:%M').time()
         df.at[i, 'DATETIME'] = datetime.datetime.combine(df.at[i, 'DATE'], df.at[i, 'TIME'])
@@ -69,8 +106,8 @@ def get_averages_totals(df):
 
 def get_avy_forecast(avalanche_forecast):
     # Query Avcan API
-    #response = requests.get('https://www.avalanche.ca/api/forecasts/%s.json' % avalanche_forecast)
-    response = requests.get('https://www.avalanche.ca/api/bulletin-archive/2020-01-07/%s.json' % avalanche_forecast)
+    response = requests.get('https://www.avalanche.ca/api/forecasts/%s.json' % avalanche_forecast) #prod
+    #response = requests.get('https://www.avalanche.ca/api/bulletin-archive/2020-01-07/%s.json' % avalanche_forecast) #testing
     data = response.json()
     return data
 
@@ -164,12 +201,15 @@ def create_todays_graph(df):
     p1 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location=None, sizing_mode='scale_width')
     p1.title.text = '48H Temperature'
     p1.xaxis.axis_label = 'Date/Time'
+    p1.xaxis.formatter = DatetimeTickFormatter(days="%d-%b")
+    p1.xaxis.ticker.desired_num_ticks = 20
     p1.yaxis.axis_label = 'Temperature \N{DEGREE SIGN}C'
 
     glyph_1 = p1.line(x= 'DATETIME', y='TMP',source=source, legend_label='Temperature', color='OrangeRed', line_width=1.5)
     glyph_1a = p1.scatter(x= 'DATETIME', y='TMP',source=source, line_color="darkRed", fill_color="OrangeRed", size=4)
 
-    hover1 = HoverTool(renderers=[glyph_1], tooltips=[('\N{DEGREE SIGN}C', '@TMP')])
+    hover1 = HoverTool(renderers=[glyph_1], tooltips=[('\N{DEGREE SIGN}C', '@TMP'), 
+                                                        ('Time', '@DATETIME{%F %T}')], formatters={'@DATETIME': 'datetime'})
     p1.add_tools(hover1)
 
     tab1 = Panel(child=p1, title="Temperature")
@@ -177,6 +217,8 @@ def create_todays_graph(df):
     p2 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location=None, sizing_mode='scale_width')
     p2.title.text = '48H Precipitation'
     p2.xaxis.axis_label = 'Date/Time'
+    p2.xaxis.formatter = DatetimeTickFormatter(days="%d-%b")
+    p2.xaxis.ticker.desired_num_ticks = 20
     p2.yaxis.axis_label = 'Amount (mm/cm)'
 
     glyph_1 = p2.line(x= 'DATETIME', y='RQP',source=source, legend_label='Total Rain', color='blue', line_width=1.5)
@@ -188,8 +230,10 @@ def create_todays_graph(df):
     band = Band(base='DATETIME', upper='RQP', source=source, level='overlay', fill_alpha=0.3, fill_color='SkyBlue')
     p2.add_layout(band)
 
-    hover2a = HoverTool(renderers=[glyph_1], tooltips=[('mm Rain', '@RQP')])
-    hover2b = HoverTool(renderers=[glyph_2], tooltips=[('cm Snow', '@SQP')])
+    hover2a = HoverTool(renderers=[glyph_1], tooltips=[('mm Rain', '@RQP'), ('mm Freezing Rain', '@FQP'), 
+                                                        ('Time', '@DATETIME{%F %T}')], formatters={'@DATETIME': 'datetime'})
+    hover2b = HoverTool(renderers=[glyph_2], tooltips=[('cm Snow', '@SQP'), ('mm Ice/Hail', '@IQP'), 
+                                                        ('Time', '@DATETIME{%F %T}')], formatters={'@DATETIME': 'datetime'})
     p2.add_tools(hover2a, hover2b)
 
     tab2 = Panel(child=p2, title="Precipitation")
@@ -197,6 +241,8 @@ def create_todays_graph(df):
     p3 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location=None, sizing_mode='scale_width')
     p3.title.text = '48H Wind/Cloud'
     p3.xaxis.axis_label = 'Date/Time'
+    p3.xaxis.formatter = DatetimeTickFormatter(days="%d-%b")
+    p3.xaxis.ticker.desired_num_ticks = 20
     p3.yaxis.axis_label = 'Speed (km/h) / % Coverage'
 
     glyph_1 = p3.line(x= 'DATETIME', y='WS',source=source, legend_label='Wind Speed', color='green', line_width=1.5)
@@ -207,8 +253,10 @@ def create_todays_graph(df):
     band = Band(base='DATETIME', upper='CLOUD', source=source, level='underlay', fill_alpha=0.3, fill_color='lightgrey')
     p3.add_layout(band)
 
-    hover3a = HoverTool(renderers=[glyph_1], tooltips=[('Wind Speed', '@WS'), ('Wind Direction', '@WD')])
-    hover3b = HoverTool(renderers=[glyph_2], tooltips=[('% Coverage', '@CLOUD')])
+    hover3a = HoverTool(renderers=[glyph_1], tooltips=[('Wind Speed', '@WS'), ('Wind Direction', '@WD'), 
+                                                        ('Time', '@DATETIME{%F %T}')], formatters={'@DATETIME': 'datetime'})
+    hover3b = HoverTool(renderers=[glyph_2], tooltips=[('% Coverage', '@CLOUD'), 
+                                                        ('Time', '@DATETIME{%F %T}')], formatters={'@DATETIME': 'datetime'})
     p3.add_tools(hover3a, hover3b)
 
     tab3 = Panel(child=p3, title="Wind/Cloud")
@@ -218,4 +266,91 @@ def create_todays_graph(df):
     html = file_html(plot, CDN)
     return html
 
-df = get_current_weather("lat=62.11416&lon=-121.19238")
+def create_NAM_graph(df):
+    source = ColumnDataSource(df)
+    y_overlimit = 0.05
+    p1 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location=None, sizing_mode='scale_width')
+    p1.title.text = '3.5 Day Temperature'
+    p1.xaxis.axis_label = 'Date/Time'
+    p1.xaxis.formatter = DatetimeTickFormatter(days="%d-%b")
+    p1.xaxis.ticker.desired_num_ticks = 20
+    p1.yaxis.axis_label = 'Temperature \N{DEGREE SIGN}C'
+
+    
+    glyph_1 = p1.line(x= 'DATETIME', y='TMP',source=source, legend_label='Temperature', color='OrangeRed', line_width=1.5)
+    glyph_1a = p1.scatter(x= 'DATETIME', y='TMP',source=source, line_color="darkRed", fill_color="OrangeRed", size=4)
+    p1.y_range = Range1d(df['TMP'].min() * (1 - y_overlimit), df['TMP'].max() * (1 + y_overlimit))
+    
+    # SECOND AXIS
+    y_column2_range = "HGT_0C_DB" + "_range"
+    p1.extra_y_ranges = {y_column2_range: Range1d(start=df['HGT_0C_DB'].min() * (1 - y_overlimit), 
+                                                  end=df['HGT_0C_DB'].max() * (1 + y_overlimit))}
+    p1.add_layout(LinearAxis(y_range_name=y_column2_range, axis_label='Elevation (m)'), "right")
+    
+    glyph_2 = p1.line(x='DATETIME', y="HGT_0C_DB", source=source, legend_label="Freezing Level", 
+                    line_width=1.5, y_range_name=y_column2_range, color="gold")
+    glyph_2a = p1.scatter(x= 'DATETIME', y='HGT_0C_DB', source=source, y_range_name=y_column2_range, 
+                        line_color="goldenrod", fill_color="gold", size=4)
+
+    hover1a = HoverTool(renderers=[glyph_1], tooltips=[('\N{DEGREE SIGN}C', '@TMP'), 
+                                                        ('Time', '@DATETIME{%F %T}')], formatters={'@DATETIME': 'datetime'})
+    hover1b = HoverTool(renderers=[glyph_2], tooltips=[('m', '@HGT_0C_DB'), ('Time', '@DATETIME{%F %T}')], 
+                        formatters={'@DATETIME': 'datetime'})
+    p1.add_tools(hover1a, hover1b)
+
+    tab1 = Panel(child=p1, title="Temperature")
+
+    p2 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location=None, sizing_mode='scale_width')
+    p2.title.text = '3.5 Day Precipitation'
+    p2.xaxis.axis_label = 'Date/Time'
+    p2.xaxis.formatter = DatetimeTickFormatter(days="%d-%b")
+    p2.xaxis.ticker.desired_num_ticks = 20
+    p2.yaxis.axis_label = 'Amount (mm/cm)'
+
+    glyph_1 = p2.line(x= 'DATETIME', y='RQP',source=source, legend_label='Total Rain', color='blue', line_width=1.5)
+    glyph_1a = p2.scatter(x= 'DATETIME', y='RQP',source=source, line_color="darkblue", fill_color="blue", size=4)
+    glyph_2 = p2.line(x= 'DATETIME', y='SQP',source=source, legend_label='Total Snow', color='lightgrey', line_width=1.5)
+    glyph_2a = p2.scatter(x= 'DATETIME', y='SQP',source=source, line_color="grey", fill_color="lightgrey", size=4)
+
+    p2.varea(x='DATETIME', y1='SQP', source=source, color='WhiteSmoke', alpha=0.8)
+    band = Band(base='DATETIME', upper='RQP', source=source, level='overlay', fill_alpha=0.3, fill_color='SkyBlue')
+    p2.add_layout(band)
+
+    hover2a = HoverTool(renderers=[glyph_1], tooltips=[('mm Rain', '@RQP'), ('mm Freezing Rain', '@FQP'), ('Time', '@DATETIME{%F %T}')], 
+                        formatters={'@DATETIME': 'datetime'})
+    hover2b = HoverTool(renderers=[glyph_2], tooltips=[('cm Snow', '@SQP'), ('mm Ice/Hail', '@IQP'), ('Time', '@DATETIME{%F %T}')], 
+                        formatters={'@DATETIME': 'datetime'})
+    p2.add_tools(hover2a, hover2b)
+
+    tab2 = Panel(child=p2, title="Precipitation")
+
+    p3 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location=None, sizing_mode='scale_width')
+    p3.title.text = '3.5 Day Wind/Cloud'
+    p3.xaxis.axis_label = 'Date/Time'
+    p3.xaxis.formatter = DatetimeTickFormatter(days="%d-%b")
+    p3.xaxis.ticker.desired_num_ticks = 20
+    p3.yaxis.axis_label = 'Speed (km/h) / % Coverage'
+
+    glyph_1 = p3.line(x= 'DATETIME', y='WS',source=source, legend_label='Wind Speed', color='green', line_width=1.5)
+    glyph_1a = p3.scatter(x= 'DATETIME', y='WS',source=source, line_color="darkgreen", fill_color="green", size=4)
+    glyph_2 = p3.line(x= 'DATETIME', y='CLOUD',source=source, legend_label='Cloud Cover', color='grey', line_width=1.5)
+    glyph_2a = p3.scatter(x= 'DATETIME', y='CLOUD',source=source, line_color="darkgrey", fill_color="grey", size=4)
+
+    band = Band(base='DATETIME', upper='CLOUD', source=source, level='underlay', fill_alpha=0.3, fill_color='lightgrey')
+    p3.add_layout(band)
+
+    hover3a = HoverTool(renderers=[glyph_1], tooltips=[('Wind Speed', '@WS'), ('Wind Direction', '@WD'), ('Gusts', '@WG'), 
+                                                        ('Time', '@DATETIME{%F %T}')], formatters={'@DATETIME': 'datetime'})
+    hover3b = HoverTool(renderers=[glyph_2], tooltips=[('% Coverage', '@CLOUD'), ('Time', '@DATETIME{%F %T}')], 
+                        formatters={'@DATETIME': 'datetime'})
+    p3.add_tools(hover3a, hover3b)
+
+    tab3 = Panel(child=p3, title="Wind/Cloud")
+
+    plot = Tabs(tabs=[tab1, tab2 , tab3])
+
+    html = file_html(plot, CDN)
+    return html
+
+df = get_NAM_weather("lat=51.06308&lon=-118.76609")
+#create_NAM_graph(df)

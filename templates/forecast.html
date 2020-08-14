@@ -9,22 +9,22 @@
             <h2>Weather Graphs</h2>
             <!--Hide/Show buttons-->
             <div class= "button-block">
-                <button class="pure-button" onclick="show_forecast()">Hide/Show Forecast</button>   
-                <button class="pure-button" onclick="show_historical()">Hide/Show Historical</button>
+                <button class="pure-button" onclick="show_forecast()">Hide/Show GEM-LAM</button>   
+                <button class="pure-button" onclick="show_historical()">Hide/Show NAM</button>
             </div>
             <div class="pure-g">
                 <!--Forecast Graph-->
                 <div class="pure-u-1 pure-u-md-1-2">
                     <div class="l-box" id="48H" align="center">
-                        <h3>48H Forecast</h3>
+                        <h3>48H Forecast (GEM-LAM, 2.5km res)</h3>
                         {{forecast_plot | safe}}
                     </div>
                 </div>
                 <!--Forecast Graph-->
                 <div class="pure-u-1 pure-u-md-1-2">
                     <div class="l-box" id="72H" align="center">
-                        <h3>72H Historical</h3>
-                        {{historical_plot | safe}}
+                        <h3>3.5 Day Forecast (NAM, 12km res)</h3>
+                        {{NAM_plot | safe}}
                     </div>
                 </div>
             </div>

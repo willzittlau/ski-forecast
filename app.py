@@ -60,9 +60,10 @@ def forecast(area_name):
             # Call functions to get data
             avy_data = get_avy_forecast(avalanche_forecast)
             weather_data = get_current_weather(coordinates)
+            NAM_data = get_NAM_weather(coordinates)
             # Create weather graphs
             forecast_plot = create_todays_graph(weather_data)
-            historical_plot = create_todays_graph(weather_data)
+            NAM_plot = create_NAM_graph(NAM_data)
             # Create avalanche info
             avy_danger = get_avy_danger(avy_data)
             avy_problems = get_avy_problems(avy_data)
@@ -77,7 +78,7 @@ def forecast(area_name):
                                     title = create_header(area["name"]) + ' - Will\'s Weather Forecast', 
                                     header = create_header(area["name"]), 
                                     forecast_plot = forecast_plot, 
-                                    historical_plot = historical_plot, 
+                                    NAM_plot = NAM_plot, 
                                     summary = summary, 
                                     avy_danger = avy_danger, 
                                     avy_problems = avy_problems, 

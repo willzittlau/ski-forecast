@@ -4,6 +4,7 @@ import time
 import json
 import requests
 import os
+import random
 # root files
 from config import ProdConfig, DevConfig
 from scripts import *
@@ -32,6 +33,8 @@ def index():
     global areas
     resort_name_list = {}
     backcountry_name_list = {}
+    rand = random.randint(0, (len(areas)-1))
+    rand_url = areas[rand]["name"]
     for area in areas:
         if 'resort' == area["area_type"]:
             url = area["name"]
@@ -42,7 +45,7 @@ def index():
             name = create_header(area["name"])
             backcountry_name_list.update({url:name})
     return render_template('index.html', title = 'Home - Will\'s Weather Forecast', 
-                            backcountry_name_list = backcountry_name_list, resort_name_list = resort_name_list)
+                            backcountry_name_list = backcountry_name_list, resort_name_list = resort_name_list, rand_url=rand_url)
 
 @app.route("/<area_name>", methods =['GET'])
 def forecast(area_name):

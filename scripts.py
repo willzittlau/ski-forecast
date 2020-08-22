@@ -352,5 +352,5 @@ def create_NAM_graph(df):
     html = file_html(plot, CDN)
     return html
 
-df = get_NAM_weather("lat=51.06308&lon=-118.76609")
+#df = get_NAM_weather("lat=51.06308&lon=-118.76609", "America/Vancouver")
 #create_NAM_graph(df)

@@ -23,14 +23,16 @@ db = SQLAlchemy(app)
 from models import *
 '''
 
-# Query API to dynamically generate site (used as global var)
+# Query API to dynamically generate site
 areas = requests.get('https://skiforecast-api.herokuapp.com/api/v1/areas', auth=(os.environ['API_User'], os.environ['API_KEY'])) #(userpass(), userpass()))
 areas = areas.json()
 
 @app.route("/", methods =['GET'])
 def index():
+    # Query API to dynamically generate site
+    areas = requests.get('https://skiforecast-api.herokuapp.com/api/v1/areas', auth=(os.environ['API_User'], os.environ['API_KEY'])) #(userpass(), userpass()))
+    areas = areas.json()
     # Create list, pass to Jinja to generate dynamic links
-    global areas
     resort_name_list = {}
     backcountry_name_list = {}
     rand = random.randint(0, (len(areas)-1))
@@ -49,7 +51,9 @@ def index():
 
 @app.route("/<area_name>", methods =['GET'])
 def forecast(area_name):
-    global areas
+    # Query API to dynamically generate site
+    areas = requests.get('https://skiforecast-api.herokuapp.com/api/v1/areas', auth=(os.environ['API_User'], os.environ['API_KEY'])) #(userpass(), userpass()))
+    areas = areas.json()
     # Generate page if it exists in API
     for area in areas:
         if str(area_name) == area["name"]:

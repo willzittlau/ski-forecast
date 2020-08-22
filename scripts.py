@@ -14,9 +14,9 @@ from bokeh.models.tools import HoverTool
 from bokeh.resources import CDN
 from bokeh.embed import file_html
 
-def get_current_weather(coordinates):
+def get_HRDPS_weather(coordinates, tz_info):
     # Query SpotWX
-    response = requests.get('https://spotwx.com/products/grib_index.php?model=gem_lam_continental&%s&tz=America/Vancouver&display=table' % coordinates).text
+    response = requests.get('https://spotwx.com/products/grib_index.php?model=gem_lam_continental&%s&tz=%s&display=table' % (coordinates, tz_info)).text
     soup = BeautifulSoup(response, "lxml")
     scripts = str(soup.find_all('script', text = re.compile("var aDataSet =")))
     # Regex parsing
@@ -51,9 +51,9 @@ def get_current_weather(coordinates):
         df.at[i, 'DATETIME'] = datetime.datetime.combine(df.at[i, 'DATE'], df.at[i, 'TIME'])
     return df
 
-def get_NAM_weather(coordinates):
+def get_NAM_weather(coordinates, tz_info):
     # Query SpotWX
-    response = requests.get('https://spotwx.com/products/grib_index.php?model=nam_awphys&%s&tz=America/Vancouver&display=table' % coordinates).text
+    response = requests.get('https://spotwx.com/products/grib_index.php?model=nam_awphys&%s&tz=%s&display=table' % (coordinates, tz_info)).text
     soup = BeautifulSoup(response, "lxml")
     scripts = str(soup.find_all('script', text = re.compile("var aDataSet =")))
     # Regex parsing
@@ -195,7 +195,7 @@ def daily_weather(coordinates):
     db.session.add
     db.session.commit()
 
-def create_todays_graph(df):
+def create_HRDPS_graph(df):
     source = ColumnDataSource(df)
 
     p1 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location=None, sizing_mode='scale_width')

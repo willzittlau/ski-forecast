@@ -17,7 +17,8 @@
                 <div class="pure-u-1 pure-u-md-1-2">
                     <div class="l-box" id="48H" align="center">
                         <h3>48H Forecast (GEM-LAM, 2.5km res)</h3>
-                        {{forecast_plot | safe}}
+                        {{HRDPS_plot | safe}}
+                        <p>Model elevation: {{HRDPS_elevation}}</p>
                     </div>
                 </div>
                 <!--Forecast Graph-->
@@ -25,11 +26,10 @@
                     <div class="l-box" id="72H" align="center">
                         <h3>3.5 Day Forecast (NAM, 12km res)</h3>
                         {{NAM_plot | safe}}
+                        <p>Model elevation: {{NAM_elevation}}</p>
                     </div>
                 </div>
             </div>
-            <!--Model Elevation-->
-            <p>Model(s) elevation: {{elevation}}</p>
         </div>
         <div class="weather_summary">
             {{summary[3] | safe}}

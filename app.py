@@ -59,13 +59,15 @@ def forecast(area_name):
             area_type = area["area_type"]
             avalanche_forecast = area["avalanche_forecast"]
             coordinates = area["coordinates"]
-            model_elevation = area["model_elevation"]
+            tz_info = area["tz_info"]
+            NAM_elevation = area["NAM_elevation"]
+            HRDPS_elevation = area["HRDPS_elevation"]
             # Call functions to get data
             avy_data = get_avy_forecast(avalanche_forecast)
-            weather_data = get_current_weather(coordinates)
-            NAM_data = get_NAM_weather(coordinates)
+            weather_data = get_HRDPS_weather(coordinates, tz_info)
+            NAM_data = get_NAM_weather(coordinates, tz_info)
             # Create weather graphs
-            forecast_plot = create_todays_graph(weather_data)
+            forecast_plot = create_HRDPS_graph(weather_data)
             NAM_plot = create_NAM_graph(NAM_data)
             # Create avalanche info
             avy_danger = get_avy_danger(avy_data)
@@ -87,7 +89,8 @@ def forecast(area_name):
                                     avy_problems = avy_problems, 
                                     confidence = avy_data["confidence"], 
                                     date_issued = 'Date Issued: '+ avy_data["dateIssued"][:10], 
-                                    elevation = model_elevation,)
+                                    NAM_elevation = NAM_elevation,
+                                    HRDPS_elevation = HRDPS_elevation,)
     # Requested route doesn't exist in API
     else:
         abort (404)

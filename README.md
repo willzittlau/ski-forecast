@@ -3,7 +3,7 @@
 
 This is a personal weather forecast app I made to streamline the process when I'm looking at which areas to ski in the winter. 
 
-It's written using Flask in python3, and deployed to Heroku. It queries its sister API to dynamically generate site contents. Bokeh is the graphing library, and is used along with Jinja and some jQuery to create the dynamic content. Add in some HTML for structure and the light amount of CSS is mainly from Pure-CSS. The page structures are built from SpotWX and Avalanche Canada data, so in the summer time the site will load empty/placeholder avalanche data, but the weather graphs should work year round.
+It's written using Flask in python3, and deployed to Heroku. It queries its sister API to dynamically generate site contents. Bokeh is the graphing library, and is used along with Jinja and js querySelector to create the dynamic content. Add in some HTML for structure and the light amount of CSS is mainly from Pure-CSS. The page structures are built from SpotWX and Avalanche Canada data, so in the summer time the site will load empty/placeholder avalanche data, but the weather graphs should work year round.
 
 V2 is in progress and will add two additional graphs of 3 and 7 day historical weather by integrating a mongoDB nosql database and a manager file which will addd the daily data. In scripts.py I'll add a function which will query and append the data and pass it to the graphing function. I'll also add a toggle switch between the 48H/3.5D forward forecast, and the 3/7D historical. Also, some improvements to the UI, especially on the landing page.
 

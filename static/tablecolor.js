@@ -1,11 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
-  
+
   const elevations = document.querySelectorAll(".elev");
-  console.log(elevations);
   const dangers = document.querySelectorAll(".danger");
 
   elevations.forEach(function (elevation) {
-    console.log(elevation);
     switch (elevation.innerHTML) {
       case " Alpine ":
         elevation.style.background = "AliceBlue";

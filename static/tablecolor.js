@@ -3,35 +3,37 @@ const dangers = document.querySelectorAll(".danger");
 
 elevations.forEach(function(elevation){
   switch(elevation.innerHTML){
-    case 'Alpine':
-      elevation.style.background = 'blue';
+    case ' Alpine ':
+      elevation.style.background = 'AliceBlue';
       break;
-    case 'Treeline':
-      elevation.style.background = 'green';
+    case ' Treeline ':
+      elevation.style.background = '#c1d831';
       break;
-    case 'Below Treeline':
-      elevation.style.background = 'brown';
+    case ' Below Treeline ':
+      elevation.style.background = 'SeaGreen';
       break;
   }
 });
 
 dangers.forEach(function(danger){
   switch(danger.innerHTML){
-    case 'Extreme':
+    case ' Extreme ':
       danger.style.background = 'black';
       danger.style.color = "white";
       break;
-    case 'High':
+    case ' High ':
       danger.style.background = 'red';
       break;
-    case 'Considerable':
+    case ' Considerable ':
       danger.style.background = 'orange';
       break;
-    case 'Moderate':
+    case ' Moderate ':
       danger.style.background = 'yellow';
       break;
-    case 'Low':
-      danger.style.background = 'lime';
+    case ' Low ':
+      danger.style.background = 'green';
       break;
+    default:
+      danger.style.background = 'white';
   }
 });

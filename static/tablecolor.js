@@ -19,20 +19,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
   dangers.forEach(function (danger) {
     switch (danger.innerHTML) {
-      case " Extreme ":
+      case " 5:Extreme ":
         danger.style.background = "black";
         danger.style.color = "white";
         break;
-      case " High ":
+      case " 4:High ":
         danger.style.background = "red";
         break;
-      case " Considerable ":
+      case " 3:Considerable ":
         danger.style.background = "orange";
         break;
-      case " Moderate ":
+      case " 2:Moderate ":
         danger.style.background = "yellow";
         break;
-      case " Low ":
+      case " 1:Low ":
         danger.style.background = "green";
         break;
       default:

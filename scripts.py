@@ -45,7 +45,6 @@ def get_HRDPS_weather(coordinates, tz_info):
         df.at[i, 'SQP'] = float(df.at[i, 'SQP'])
         df.at[i, 'FQP'] = float(df.at[i, 'FQP'])
         df.at[i, 'IQP'] = float(df.at[i, 'IQP'])
-        df.at[i, 'SQP'] *= 10.0
         df.at[i, 'DATE'] = datetime.datetime.strptime(df.at[i, 'DATE'], '%Y/%m/%d').date()
         df.at[i, 'TIME'] = datetime.datetime.strptime(df.at[i, 'TIME'], '%H:%M').time()
         df.at[i, 'DATETIME'] = datetime.datetime.combine(df.at[i, 'DATE'], df.at[i, 'TIME'])
@@ -83,7 +82,6 @@ def get_NAM_weather(coordinates, tz_info):
         df.at[i, 'SQP'] = float(df.at[i, 'SQP'])
         df.at[i, 'FQP'] = float(df.at[i, 'FQP'])
         df.at[i, 'IQP'] = float(df.at[i, 'IQP'])
-        df.at[i, 'SQP'] *= 10.0
         df.at[i, 'HGT_0C_DB'] = int(df.at[i, 'HGT_0C_DB'])
         df.at[i, 'DATE'] = datetime.datetime.strptime(df.at[i, 'DATE'], '%Y/%m/%d').date()
         df.at[i, 'TIME'] = datetime.datetime.strptime(df.at[i, 'TIME'], '%H:%M').time()
@@ -201,8 +199,8 @@ def create_HRDPS_graph(df):
     p1 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location=None, sizing_mode='scale_width')
     p1.title.text = '48H Temperature'
     p1.xaxis.axis_label = 'Date/Time'
-    p1.xaxis.formatter = DatetimeTickFormatter(days="%d-%b")
-    p1.xaxis.ticker.desired_num_ticks = 20
+    # p1.xaxis.formatter = DatetimeTickFormatter(days="%d-%b")
+    # p1.xaxis.ticker.desired_num_ticks = 20
     p1.yaxis.axis_label = 'Temperature \N{DEGREE SIGN}C'
 
     glyph_1 = p1.line(x= 'DATETIME', y='TMP',source=source, legend_label='Temperature', color='OrangeRed', line_width=1.5)
@@ -217,16 +215,16 @@ def create_HRDPS_graph(df):
     p2 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location=None, sizing_mode='scale_width')
     p2.title.text = '48H Precipitation'
     p2.xaxis.axis_label = 'Date/Time'
-    p2.xaxis.formatter = DatetimeTickFormatter(days="%d-%b")
-    p2.xaxis.ticker.desired_num_ticks = 20
+    # p2.xaxis.formatter = DatetimeTickFormatter(days="%d-%b")
+    # p2.xaxis.ticker.desired_num_ticks = 20
     p2.yaxis.axis_label = 'Amount (mm/cm)'
 
     glyph_1 = p2.line(x= 'DATETIME', y='RQP',source=source, legend_label='Total Rain', color='blue', line_width=1.5)
     glyph_1a = p2.scatter(x= 'DATETIME', y='RQP',source=source, line_color="darkblue", fill_color="blue", size=4)
-    glyph_2 = p2.line(x= 'DATETIME', y='SQP',source=source, legend_label='Total Snow', color='lightgrey', line_width=1.5)
-    glyph_2a = p2.scatter(x= 'DATETIME', y='SQP',source=source, line_color="grey", fill_color="lightgrey", size=4)
+    glyph_2 = p2.line(x= 'DATETIME', y='SQP',source=source, legend_label='Total Snow', color='azure', line_width=1.5)
+    glyph_2a = p2.scatter(x= 'DATETIME', y='SQP',source=source, line_color="aliceblue", fill_color="azure", size=4)
 
-    p2.varea(x='DATETIME', y1='SQP', source=source, color='WhiteSmoke', alpha=0.8)
+    p2.varea(x='DATETIME', y1='SQP', source=source, color='GhostWhite', alpha=0.8)
     band = Band(base='DATETIME', upper='RQP', source=source, level='overlay', fill_alpha=0.3, fill_color='SkyBlue')
     p2.add_layout(band)
 
@@ -241,8 +239,8 @@ def create_HRDPS_graph(df):
     p3 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location=None, sizing_mode='scale_width')
     p3.title.text = '48H Wind/Cloud'
     p3.xaxis.axis_label = 'Date/Time'
-    p3.xaxis.formatter = DatetimeTickFormatter(days="%d-%b")
-    p3.xaxis.ticker.desired_num_ticks = 20
+    # p3.xaxis.formatter = DatetimeTickFormatter(days="%d-%b")
+    # p3.xaxis.ticker.desired_num_ticks = 20
     p3.yaxis.axis_label = 'Speed (km/h) / % Coverage'
 
     glyph_1 = p3.line(x= 'DATETIME', y='WS',source=source, legend_label='Wind Speed', color='green', line_width=1.5)

@@ -222,9 +222,9 @@ def create_HRDPS_graph(df):
     glyph_1 = p2.line(x= 'DATETIME', y='RQP',source=source, legend_label='Total Rain', color='blue', line_width=1.5)
     glyph_1a = p2.scatter(x= 'DATETIME', y='RQP',source=source, line_color="darkblue", fill_color="blue", size=4)
     glyph_2 = p2.line(x= 'DATETIME', y='SQP',source=source, legend_label='Total Snow', color='lavender', line_width=1.5)
-    glyph_2a = p2.scatter(x= 'DATETIME', y='SQP',source=source, line_color="cornflowerblue", fill_color="lavender", size=4)
+    glyph_2a = p2.scatter(x= 'DATETIME', y='SQP',source=source, line_color="lightsteelblue", fill_color="lavender", size=4)
 
-    p2.varea(x='DATETIME', y1='SQP', source=source, color='GhostWhite', alpha=0.8)
+    p2.varea(x='DATETIME', y1='SQP', source=source, color='GhostWhite', alpha=0.4)
     band = Band(base='DATETIME', upper='RQP', source=source, level='overlay', fill_alpha=0.3, fill_color='SkyBlue')
     p2.add_layout(band)
 
@@ -307,10 +307,10 @@ def create_NAM_graph(df):
 
     glyph_1 = p2.line(x= 'DATETIME', y='RQP',source=source, legend_label='Total Rain', color='blue', line_width=1.5)
     glyph_1a = p2.scatter(x= 'DATETIME', y='RQP',source=source, line_color="darkblue", fill_color="blue", size=4)
-    glyph_2 = p2.line(x= 'DATETIME', y='SQP',source=source, legend_label='Total Snow', color='lightsteelblue', line_width=1.5)
-    glyph_2a = p2.scatter(x= 'DATETIME', y='SQP',source=source, line_color="lightslategray", fill_color="lightsteelblue", size=4)
+    glyph_2 = p2.line(x= 'DATETIME', y='SQP',source=source, legend_label='Total Snow', color='lavender', line_width=1.5)
+    glyph_2a = p2.scatter(x= 'DATETIME', y='SQP',source=source, line_color="#C3C2E9", fill_color="lavender", size=4)
 
-    p2.varea(x='DATETIME', y1='SQP', source=source, color='Azure', alpha=0.8)
+    p2.varea(x='DATETIME', y1='SQP', source=source, color='GhostWhite', alpha=0.6)
     band = Band(base='DATETIME', upper='RQP', source=source, level='overlay', fill_alpha=0.3, fill_color='SkyBlue')
     p2.add_layout(band)
 

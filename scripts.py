@@ -199,8 +199,6 @@ def create_HRDPS_graph(df):
     p1 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location=None, sizing_mode='scale_width')
     p1.title.text = '48H Temperature'
     p1.xaxis.axis_label = 'Date/Time'
-    # p1.xaxis.formatter = DatetimeTickFormatter(days="%d-%b")
-    # p1.xaxis.ticker.desired_num_ticks = 20
     p1.yaxis.axis_label = 'Temperature \N{DEGREE SIGN}C'
 
     glyph_1 = p1.line(x= 'DATETIME', y='TMP',source=source, legend_label='Temperature', color='OrangeRed', line_width=1.5)
@@ -215,8 +213,6 @@ def create_HRDPS_graph(df):
     p2 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location=None, sizing_mode='scale_width')
     p2.title.text = '48H Precipitation'
     p2.xaxis.axis_label = 'Date/Time'
-    # p2.xaxis.formatter = DatetimeTickFormatter(days="%d-%b")
-    # p2.xaxis.ticker.desired_num_ticks = 20
     p2.yaxis.axis_label = 'Amount (mm/cm)'
 
     glyph_1 = p2.line(x= 'DATETIME', y='RQP',source=source, legend_label='Total Rain', color='blue', line_width=1.5)
@@ -224,7 +220,7 @@ def create_HRDPS_graph(df):
     glyph_2 = p2.line(x= 'DATETIME', y='SQP',source=source, legend_label='Total Snow', color='lavender', line_width=1.5)
     glyph_2a = p2.scatter(x= 'DATETIME', y='SQP',source=source, line_color="lightsteelblue", fill_color="lavender", size=4)
 
-    p2.varea(x='DATETIME', y1='SQP', source=source, color='GhostWhite', alpha=0.4)
+    p2.varea(x='DATETIME', y1='SQP', source=source, color='GhostWhite', alpha=0.5)
     band = Band(base='DATETIME', upper='RQP', source=source, level='overlay', fill_alpha=0.3, fill_color='SkyBlue')
     p2.add_layout(band)
 
@@ -239,8 +235,6 @@ def create_HRDPS_graph(df):
     p3 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location=None, sizing_mode='scale_width')
     p3.title.text = '48H Wind/Cloud'
     p3.xaxis.axis_label = 'Date/Time'
-    # p3.xaxis.formatter = DatetimeTickFormatter(days="%d-%b")
-    # p3.xaxis.ticker.desired_num_ticks = 20
     p3.yaxis.axis_label = 'Speed (km/h) / % Coverage'
 
     glyph_1 = p3.line(x= 'DATETIME', y='WS',source=source, legend_label='Wind Speed', color='green', line_width=1.5)
@@ -270,8 +264,6 @@ def create_NAM_graph(df):
     p1 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location=None, sizing_mode='scale_width')
     p1.title.text = '3.5 Day Temperature'
     p1.xaxis.axis_label = 'Date/Time'
-    p1.xaxis.formatter = DatetimeTickFormatter(days="%d-%b")
-    p1.xaxis.ticker.desired_num_ticks = 20
     p1.yaxis.axis_label = 'Temperature \N{DEGREE SIGN}C'
 
     
@@ -301,16 +293,14 @@ def create_NAM_graph(df):
     p2 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location=None, sizing_mode='scale_width')
     p2.title.text = '3.5 Day Precipitation'
     p2.xaxis.axis_label = 'Date/Time'
-    p2.xaxis.formatter = DatetimeTickFormatter(days="%d-%b")
-    p2.xaxis.ticker.desired_num_ticks = 20
     p2.yaxis.axis_label = 'Amount (mm/cm)'
 
     glyph_1 = p2.line(x= 'DATETIME', y='RQP',source=source, legend_label='Total Rain', color='blue', line_width=1.5)
     glyph_1a = p2.scatter(x= 'DATETIME', y='RQP',source=source, line_color="darkblue", fill_color="blue", size=4)
     glyph_2 = p2.line(x= 'DATETIME', y='SQP',source=source, legend_label='Total Snow', color='lavender', line_width=1.5)
-    glyph_2a = p2.scatter(x= 'DATETIME', y='SQP',source=source, line_color="#C3C2E9", fill_color="lavender", size=4)
+    glyph_2a = p2.scatter(x= 'DATETIME', y='SQP',source=source, line_color="lightsteelblue", fill_color="lavender", size=4)
 
-    p2.varea(x='DATETIME', y1='SQP', source=source, color='GhostWhite', alpha=0.6)
+    p2.varea(x='DATETIME', y1='SQP', source=source, color='GhostWhite', alpha=0.5)
     band = Band(base='DATETIME', upper='RQP', source=source, level='overlay', fill_alpha=0.3, fill_color='SkyBlue')
     p2.add_layout(band)
 
@@ -325,8 +315,6 @@ def create_NAM_graph(df):
     p3 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location=None, sizing_mode='scale_width')
     p3.title.text = '3.5 Day Wind/Cloud'
     p3.xaxis.axis_label = 'Date/Time'
-    p3.xaxis.formatter = DatetimeTickFormatter(days="%d-%b")
-    p3.xaxis.ticker.desired_num_ticks = 20
     p3.yaxis.axis_label = 'Speed (km/h) / % Coverage'
 
     glyph_1 = p3.line(x= 'DATETIME', y='WS',source=source, legend_label='Wind Speed', color='green', line_width=1.5)

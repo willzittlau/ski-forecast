@@ -3,6 +3,10 @@
 <!--Body-->
 {%block content%}
     <h1><u> {{header}} </u></h1>
+    <!--Google map embed-->
+    <div class="map">
+        {{map_coordinates | safe}}
+    </div>
     <!--Weather forecast section-->
     <div class = "weather">
         <div class ="weathergraph">

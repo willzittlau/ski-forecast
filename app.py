@@ -67,6 +67,7 @@ def forecast(area_name):
             NAM_elevation = area["NAM_elevation"]
             HRDPS_elevation = area["HRDPS_elevation"]
             # Call functions to get data
+            map_coordinates = get_map_coordinates(coordinates)
             avy_data = get_avy_forecast(avalanche_forecast)
             weather_data = get_HRDPS_weather(coordinates, tz_info)
             NAM_data = get_NAM_weather(coordinates, tz_info)
@@ -86,6 +87,7 @@ def forecast(area_name):
             return render_template('forecast.html', 
                                     title = create_header(area["name"]) + ' - Will\'s Weather Forecast', 
                                     header = create_header(area["name"]), 
+                                    map_coordinates = map_coordinates,
                                     HRDPS_plot = HRDPS_plot, 
                                     NAM_plot = NAM_plot, 
                                     summary = summary, 

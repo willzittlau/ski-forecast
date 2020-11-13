@@ -33,6 +33,9 @@ table {
 .l-box {
     padding: 0px;
     max-width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 @media (min-width: 568px) {

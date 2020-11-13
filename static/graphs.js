@@ -12,11 +12,11 @@ function toggle_HRDPS() {
 
 function toggle_NAM() {
     var y = document.getElementById("72H");
-    if (x.style.display === "block") {
-        x.style.display = "none"; 
+    if (y.style.display === "block") {
+        y.style.display = "none"; 
     } 
     else {
-        x.style.display = "block";
+        y.style.display = "block";
     }
 }
 

@@ -30,12 +30,18 @@ table {
     padding: 0.5em;
 }
 
+.l-box {
+    padding: 0px;
+    max-width: 100%;
+}
+
 @media (min-width: 568px) {
     .avy_summary{
         border-right: 1px dashed darkgray;
     }
     .l-box {
         padding: 2em;
+        max-width: 70%;
     }
 }
 

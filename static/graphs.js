@@ -1,6 +1,6 @@
 //Hide / Show Graphs button
 
-function toggle_forecast() {
+function toggle_HRDPS() {
     var x = document.getElementById("48H");
     if (x.style.display === "none") {
         x.style.display = "block"; 
@@ -8,6 +8,9 @@ function toggle_forecast() {
     else {
         x.style.display = "none";
     }
+}
+
+function toggle_NAM() {
     var y = document.getElementById("72H");
     if (x.style.display === "block") {
         x.style.display = "none"; 
@@ -17,6 +20,7 @@ function toggle_forecast() {
     }
 }
 
+/*
 function show_historical() {
     var x = document.getElementById("72H");
     if (x.style.display === "none") {
@@ -26,3 +30,4 @@ function show_historical() {
         x.style.display = "none";
     }
 }
+*/

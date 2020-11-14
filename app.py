@@ -46,7 +46,7 @@ def index():
             url = area["name"]
             name = create_header(area["name"])
             backcountry_name_list.update({url:name})
-    return render_template('index.html', title = 'Home - Will\'s Weather Forecast', 
+    return render_template('index.html', title = 'Home - Will\'s Ski Forecast', 
                             backcountry_name_list = backcountry_name_list, resort_name_list = resort_name_list, rand_url=rand_url)
 
 @app.route("/<area_name>", methods =['GET'])
@@ -85,7 +85,7 @@ def forecast(area_name):
             summary.append("<h3>Regional Summary:</h3>" + avy_data["weatherForecast"])
             # Return template and vars to pass to Jinja
             return render_template('forecast.html', 
-                                    title = create_header(area["name"]) + ' - Will\'s Weather Forecast', 
+                                    title = create_header(area["name"]) + ' - Will\'s Ski Forecast', 
                                     header = create_header(area["name"]), 
                                     map_coordinates = map_coordinates,
                                     HRDPS_plot = HRDPS_plot, 

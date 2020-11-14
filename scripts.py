@@ -203,7 +203,7 @@ def daily_weather(coordinates):
 def create_HRDPS_graph(df):
     source = ColumnDataSource(df)
 
-    p1 = figure(x_axis_type='datetime', plot_width=600, plot_height=250, toolbar_location=None, sizing_mode='scale_width')
+    p1 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location=None, sizing_mode='scale_width')
     p1.title.text = '48H Temperature'
     p1.xaxis.axis_label = 'Date/Time'
     p1.yaxis.axis_label = 'Temperature \N{DEGREE SIGN}C'
@@ -217,7 +217,7 @@ def create_HRDPS_graph(df):
 
     tab1 = Panel(child=p1, title="Temperature")
 
-    p2 = figure(x_axis_type='datetime', plot_width=600, plot_height=250, toolbar_location=None, sizing_mode='scale_width')
+    p2 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location=None, sizing_mode='scale_width')
     p2.title.text = '48H Precipitation'
     p2.xaxis.axis_label = 'Date/Time'
     p2.yaxis.axis_label = 'Amount (mm/cm)'
@@ -239,7 +239,7 @@ def create_HRDPS_graph(df):
 
     tab2 = Panel(child=p2, title="Precipitation")
 
-    p3 = figure(x_axis_type='datetime', plot_width=600, plot_height=250, toolbar_location=None, sizing_mode='scale_width')
+    p3 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location=None, sizing_mode='scale_width')
     p3.title.text = '48H Wind/Cloud'
     p3.xaxis.axis_label = 'Date/Time'
     p3.yaxis.axis_label = 'Speed (km/h) / % Coverage'
@@ -268,7 +268,7 @@ def create_HRDPS_graph(df):
 def create_NAM_graph(df):
     source = ColumnDataSource(df)
     y_overlimit = 0.05
-    p1 = figure(x_axis_type='datetime', plot_width=600, plot_height=250, toolbar_location=None, sizing_mode='scale_width')
+    p1 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location=None, sizing_mode='scale_width')
     p1.title.text = '3.5 Day Temperature'
     p1.xaxis.axis_label = 'Date/Time'
     p1.yaxis.axis_label = 'Temperature \N{DEGREE SIGN}C'
@@ -297,7 +297,7 @@ def create_NAM_graph(df):
 
     tab1 = Panel(child=p1, title="Temperature")
 
-    p2 = figure(x_axis_type='datetime', plot_width=600, plot_height=250, toolbar_location=None, sizing_mode='scale_width')
+    p2 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location=None, sizing_mode='scale_width')
     p2.title.text = '3.5 Day Precipitation'
     p2.xaxis.axis_label = 'Date/Time'
     p2.yaxis.axis_label = 'Amount (mm/cm)'
@@ -319,7 +319,7 @@ def create_NAM_graph(df):
 
     tab2 = Panel(child=p2, title="Precipitation")
 
-    p3 = figure(x_axis_type='datetime', plot_width=600, plot_height=250, toolbar_location=None, sizing_mode='scale_width')
+    p3 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location=None, sizing_mode='scale_width')
     p3.title.text = '3.5 Day Wind/Cloud'
     p3.xaxis.axis_label = 'Date/Time'
     p3.yaxis.axis_label = 'Speed (km/h) / % Coverage'

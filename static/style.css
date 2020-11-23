@@ -44,18 +44,10 @@ table {
     }
     .l-box {
         padding: 2em;
-        max-width: 75%;
+        max-width: 65%;
     }
 }
 
-@media (min-width: 568px) {
-    .snow_summary{
-        border-left: 1px dashed darkgray;
-    }
-}
-
-@media (max-width: 568px) {
-    .avy_summary {
+.avy_summary {
         border-bottom: 1px dashed darkgray;
-    }
 }

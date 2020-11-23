@@ -211,7 +211,7 @@ def get_avy_problems(avy_data):
 def create_HRDPS_graph(df):
     source = ColumnDataSource(df)
     # create plot 1
-    p1 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location='below', sizing_mode='scale_width')
+    p1 = figure(x_axis_type='datetime', plot_width=600, plot_height=400, toolbar_location='above', sizing_mode='scale_width')
     p1.title.text = '48H Temperature'
     p1.xaxis.axis_label = 'Date/Time'
     p1.yaxis.axis_label = 'Temperature \N{DEGREE SIGN}C'
@@ -227,12 +227,12 @@ def create_HRDPS_graph(df):
     p1.toolbar.active_tap = None
     p1.add_tools(hover1)
     # legend 1
-    legend = Legend(items=[("Temp", [glyph_1, glyph_1a])], location="top_center")
-    p1.add_layout(legend, 'right')
+    legend = Legend(items=[("Temp", [glyph_1, glyph_1a])], location="center", orientation="horizontal")
+    p1.add_layout(legend, 'below')
     # create tab from plot
     tab1 = Panel(child=p1, title="Temperature")
     # create plot 2
-    p2 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location='below', sizing_mode='scale_width')
+    p2 = figure(x_axis_type='datetime', plot_width=600, plot_height=400, toolbar_location='above', sizing_mode='scale_width')
     p2.title.text = '48H Precipitation'
     p2.xaxis.axis_label = 'Date/Time'
     p2.yaxis.axis_label = 'Amount (mm/cm)'
@@ -254,12 +254,12 @@ def create_HRDPS_graph(df):
     p2.toolbar.active_tap = None
     p2.add_tools(hover2a, hover2b)
     # legend 2
-    legend = Legend(items=[("Rain", [glyph_1, glyph_1a]), ("Snow", [glyph_2, glyph_2a])], location="top_center")
-    p2.add_layout(legend, 'right')
+    legend = Legend(items=[("Rain", [glyph_1, glyph_1a]), ("Snow", [glyph_2, glyph_2a])], location="center", orientation="horizontal")
+    p2.add_layout(legend, 'below')
     # Create tab from plot
     tab2 = Panel(child=p2, title="Precipitation")
     # create plot 3
-    p3 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location='below', sizing_mode='scale_width')
+    p3 = figure(x_axis_type='datetime', plot_width=600, plot_height=400, toolbar_location='above', sizing_mode='scale_width')
     p3.title.text = '48H Wind/Cloud'
     p3.xaxis.axis_label = 'Date/Time'
     p3.yaxis.axis_label = 'Speed (km/h) / % Coverage'
@@ -280,8 +280,8 @@ def create_HRDPS_graph(df):
     p3.toolbar.active_tap = None
     p3.add_tools(hover3a, hover3b)
     # legend 3
-    legend = Legend(items=[("Wind", [glyph_1, glyph_1a]), ("Cloud", [glyph_2, glyph_2a])], location="top_center")
-    p3.add_layout(legend, 'right')
+    legend = Legend(items=[("Wind", [glyph_1, glyph_1a]), ("Cloud", [glyph_2, glyph_2a])], location="center", orientation="horizontal")
+    p3.add_layout(legend, 'below')
     # Create tab from plot
     tab3 = Panel(child=p3, title="Wind/Cloud")
     # merge to final plot
@@ -294,7 +294,7 @@ def create_NAM_graph(df):
     source = ColumnDataSource(df)
     # Create plot 1
     y_overlimit = 0.05
-    p1 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location='below', sizing_mode='scale_width')
+    p1 = figure(x_axis_type='datetime', plot_width=600, plot_height=400, toolbar_location='above', sizing_mode='scale_width')
     p1.title.text = '3.5 Day Temperature'
     p1.xaxis.axis_label = 'Date/Time'
     p1.yaxis.axis_label = 'Temperature \N{DEGREE SIGN}C'
@@ -319,12 +319,12 @@ def create_NAM_graph(df):
     p1.toolbar.active_tap = None
     p1.add_tools(hover1a, hover1b)
     # legend 1
-    legend = Legend(items=[("Temp", [glyph_1, glyph_1a]), ("FrzL", [glyph_2, glyph_2a])], location="top_center")
-    p1.add_layout(legend, 'right')
+    legend = Legend(items=[("Temp", [glyph_1, glyph_1a]), ("Frz Lvl", [glyph_2, glyph_2a])], location="center", orientation="horizontal")
+    p1.add_layout(legend, 'below')
     # create tab from plot
     tab1 = Panel(child=p1, title="Temperature")
     # create plot 2
-    p2 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location='below', sizing_mode='scale_width')
+    p2 = figure(x_axis_type='datetime', plot_width=600, plot_height=400, toolbar_location='above', sizing_mode='scale_width')
     p2.title.text = '3.5 Day Precipitation'
     p2.xaxis.axis_label = 'Date/Time'
     p2.yaxis.axis_label = 'Amount (mm/cm)'
@@ -346,12 +346,12 @@ def create_NAM_graph(df):
     p2.toolbar.active_tap = None
     p2.add_tools(hover2a, hover2b)
     # legend 2
-    legend = Legend(items=[("Rain", [glyph_1, glyph_1a]), ("Snow", [glyph_2, glyph_2a])], location="top_center")
-    p2.add_layout(legend, 'right')
+    legend = Legend(items=[("Rain", [glyph_1, glyph_1a]), ("Snow", [glyph_2, glyph_2a])], location="center", orientation="horizontal")
+    p2.add_layout(legend, 'below')
     # create tab from plot
     tab2 = Panel(child=p2, title="Precipitation")
     # plot 3
-    p3 = figure(x_axis_type='datetime', plot_width=600, plot_height=300, toolbar_location='below', sizing_mode='scale_width')
+    p3 = figure(x_axis_type='datetime', plot_width=600, plot_height=400, toolbar_location='above', sizing_mode='scale_width')
     p3.title.text = '3.5 Day Wind/Cloud'
     p3.xaxis.axis_label = 'Date/Time'
     p3.yaxis.axis_label = 'Speed (km/h) / % Coverage'
@@ -372,8 +372,8 @@ def create_NAM_graph(df):
     p3.toolbar.active_tap = None
     p3.add_tools(hover3a, hover3b)
     # legend 3
-    legend = Legend(items=[("Wind", [glyph_1, glyph_1a]), ("Cloud", [glyph_2, glyph_2a])], location="top_center")
-    p3.add_layout(legend, 'right')
+    legend = Legend(items=[("Wind", [glyph_1, glyph_1a]), ("Cloud", [glyph_2, glyph_2a])], location="center", orientation="horizontal")
+    p3.add_layout(legend, 'below')
     # tab from plot
     tab3 = Panel(child=p3, title="Wind/Cloud")
     # merge tabs into one plot

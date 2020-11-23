@@ -1,3 +1,5 @@
+/* Global / Forecast */
+
 h1, h2, h3, .dangerratings h4, .avytitle p, .weathergraph, .button-block {
     text-align: center;
 }
@@ -18,8 +20,12 @@ table {
     padding: 0.5em;
 }
 
-.weather, .avalanche{
-    border-bottom: 1.5px solid black
+.avy_summary {
+    border-bottom: 1px dashed darkgray;
+}
+
+.avalanche{
+    border-bottom: 1px solid black
 }
 
 .weathergraph, .avyproblem, .dangerratings, .confidence, .highlights{
@@ -28,6 +34,10 @@ table {
 
 .weathergraph, .avyproblem, .confidence, .highlights, .weather_summary{
     padding: 0.5em;
+}
+
+.button-block{
+    margin-bottom: 16px;
 }
 
 .l-box {
@@ -48,6 +58,40 @@ table {
     }
 }
 
-.avy_summary {
-        border-bottom: 1px dashed darkgray;
+/* Footer */
+
+@media (min-width: 568px) {
+    .home-btn {
+        float:left;
+    }
+}
+.copyright, .mail, .home {
+    display: inline-block;
+    line-height: normal;
+    white-space: nowrap;
+    vertical-align: middle !important;
+    text-align: center;
+    margin: auto 0 auto 0;
+    padding: 4px 0px;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+/* Sticky footer */
+.footer {
+    flex-shrink: 0;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.wrapper{
+    flex: 1 0 auto;
+    border-bottom: 1px solid black
 }

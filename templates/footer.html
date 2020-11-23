@@ -1,0 +1,24 @@
+<div class="footer">
+  <div class="pure-g">
+    <!--Return Home-->
+    <div class="pure-u-1 pure-u-sm-1-3 home">
+      <a href="{{ url_for('index') }}">
+        <button class="pure-button home-btn">Return Home</button>
+      </a>
+    </div>
+    <!--Copyright-->
+    <div class="pure-u-1 pure-u-sm-1-3 copyright">
+      <a href="https://willzittlau.com"
+        >&copy; <span id="currentDate"></span> Will Zittlau</a
+      >
+    </div>
+    <div class="pure-u-1 pure-u-sm-1-3 mail">
+      <a href="mailto:hi@willz.dev">Want an area added? Get in touch!</a>
+    </div>
+  </div>
+</div>
+
+<!--Get current date-->
+<script>
+  document.getElementById("currentDate").innerHTML = new Date().getFullYear();
+</script>

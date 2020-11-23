@@ -22,9 +22,12 @@
         </p>
 </noscript>
 <body>
-{%block content%}
-{%endblock%}
-{%block javascript%}
-{%endblock%}
+    <div class="wrapper">
+        {%block content%}
+        {%endblock%}
+    </div>
+    {% include "footer.html" %}
+    {%block javascript%}
+    {%endblock%}
 </body>
 </html>

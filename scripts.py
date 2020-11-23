@@ -10,7 +10,7 @@ import datetime
 from bokeh.plotting import figure, output_file, show
 from bokeh.models import ColumnDataSource, Band, Tabs, Panel, LinearAxis, Range1d, Legend
 from bokeh.models.formatters import DatetimeTickFormatter
-from bokeh.models.tools import HoverTool
+from bokeh.models.tools import HoverTool, ResetTool, ZoomInTool, ZoomOutTool, PanTool
 from bokeh.resources import CDN
 from bokeh.embed import file_html
 
@@ -218,8 +218,13 @@ def create_HRDPS_graph(df):
     # add lines
     glyph_1 = p1.line(x='DATETIME', y='TMP', source=source, color='OrangeRed', line_width=1.5)
     glyph_1a = p1.scatter(x='DATETIME', y='TMP', source=source, line_color="darkRed", fill_color="OrangeRed", size=4)
-    # create hover tools
+    # tools
     hover1 = HoverTool(renderers=[glyph_1], tooltips=[('\N{DEGREE SIGN}C', '@TMP'), ('Time', '@DATETIME{%F %T}')], formatters={'@DATETIME': 'datetime'}, mode='vline')
+    p1.tools = [ZoomInTool(), ZoomOutTool(), PanTool(), ResetTool()]
+    p1.toolbar.logo = None
+    p1.toolbar.active_drag = None
+    p1.toolbar.active_scroll = None
+    p1.toolbar.active_tap = None
     p1.add_tools(hover1)
     # legend 1
     legend = Legend(items=[("Temp", [glyph_1, glyph_1a])], location="top_center")
@@ -239,9 +244,14 @@ def create_HRDPS_graph(df):
     p2.varea(x='DATETIME', y1='SQP', source=source, color='GhostWhite', alpha=0.5)
     band = Band(base='DATETIME', upper='RQP', source=source, level='overlay', fill_alpha=0.3, fill_color='SkyBlue')
     p2.add_layout(band)
-    # create hover tools
+    # tools
     hover2a = HoverTool(renderers=[glyph_1], tooltips=[('mm Rain', '@RQP'), ('mm Freezing Rain', '@FQP'), ('Time', '@DATETIME{%F %T}')], formatters={'@DATETIME': 'datetime'}, mode='vline')
     hover2b = HoverTool(renderers=[glyph_2], tooltips=[('cm Snow', '@SQP'), ('mm Ice/Hail', '@IQP'), ('Time', '@DATETIME{%F %T}')], formatters={'@DATETIME': 'datetime'}, mode='vline')
+    p2.tools = [ZoomInTool(), ZoomOutTool(), PanTool(), ResetTool()]
+    p2.toolbar.logo = None
+    p2.toolbar.active_drag = None
+    p2.toolbar.active_scroll = None
+    p2.toolbar.active_tap = None
     p2.add_tools(hover2a, hover2b)
     # legend 2
     legend = Legend(items=[("Rain", [glyph_1, glyph_1a]), ("Snow", [glyph_2, glyph_2a])], location="top_center")
@@ -260,9 +270,14 @@ def create_HRDPS_graph(df):
     glyph_2a = p3.scatter(x='DATETIME', y='CLOUD', source=source, line_color="darkgrey", fill_color="grey", size=4)
     band = Band(base='DATETIME', upper='CLOUD', source=source, level='underlay', fill_alpha=0.3, fill_color='lightgrey')
     p3.add_layout(band)
-    # create hover tools
+    # tools
     hover3a = HoverTool(renderers=[glyph_1], tooltips=[('Wind Speed', '@WS'), ('Wind Direction', '@WD'), ('Time', '@DATETIME{%F %T}')], formatters={'@DATETIME': 'datetime'}, mode='vline')
     hover3b = HoverTool(renderers=[glyph_2], tooltips=[('% Coverage', '@CLOUD'), ('Time', '@DATETIME{%F %T}')], formatters={'@DATETIME': 'datetime'}, mode='vline')
+    p3.tools = [ZoomInTool(), ZoomOutTool(), PanTool(), ResetTool()]
+    p3.toolbar.logo = None
+    p3.toolbar.active_drag = None
+    p3.toolbar.active_scroll = None
+    p3.toolbar.active_tap = None
     p3.add_tools(hover3a, hover3b)
     # legend 3
     legend = Legend(items=[("Wind", [glyph_1, glyph_1a]), ("Cloud", [glyph_2, glyph_2a])], location="top_center")
@@ -274,7 +289,6 @@ def create_HRDPS_graph(df):
     # return graph
     html = file_html(plot, CDN)
     return html
-
 
 def create_NAM_graph(df):
     source = ColumnDataSource(df)
@@ -295,9 +309,14 @@ def create_NAM_graph(df):
     # add lines
     glyph_2 = p1.line(x='DATETIME', y="HGT_0C_DB", source=source, line_width=1.5, y_range_name=y_column2_range, color="gold")
     glyph_2a = p1.scatter(x='DATETIME', y='HGT_0C_DB', source=source, y_range_name=y_column2_range, line_color="goldenrod", fill_color="gold", size=4)
-    # hover tool
+    # tools
     hover1a = HoverTool(renderers=[glyph_1], tooltips=[('\N{DEGREE SIGN}C', '@TMP'), ('Time', '@DATETIME{%F %T}')], formatters={'@DATETIME': 'datetime'}, mode='vline')
     hover1b = HoverTool(renderers=[glyph_2], tooltips=[('m', '@HGT_0C_DB'), ('Time', '@DATETIME{%F %T}')], formatters={'@DATETIME': 'datetime'}, mode='vline')
+    p1.tools = [ZoomInTool(), ZoomOutTool(), PanTool(), ResetTool()]
+    p1.toolbar.logo = None
+    p1.toolbar.active_drag = None
+    p1.toolbar.active_scroll = None
+    p1.toolbar.active_tap = None
     p1.add_tools(hover1a, hover1b)
     # legend 1
     legend = Legend(items=[("Temp", [glyph_1, glyph_1a]), ("FrzL", [glyph_2, glyph_2a])], location="top_center")
@@ -317,9 +336,14 @@ def create_NAM_graph(df):
     p2.varea(x='DATETIME', y1='SQP', source=source, color='GhostWhite', alpha=0.5)
     band = Band(base='DATETIME', upper='RQP', source=source, level='overlay', fill_alpha=0.3, fill_color='SkyBlue')
     p2.add_layout(band)
-    # hover tool
+    # tools
     hover2a = HoverTool(renderers=[glyph_1], tooltips=[('mm Rain', '@RQP'), ('mm Freezing Rain', '@FQP'), ('Time', '@DATETIME{%F %T}')], formatters={'@DATETIME': 'datetime'}, mode='vline')
     hover2b = HoverTool(renderers=[glyph_2], tooltips=[('cm Snow', '@SQP'), ('mm Ice/Hail', '@IQP'), ('Time', '@DATETIME{%F %T}')], formatters={'@DATETIME': 'datetime'}, mode='vline')
+    p2.tools = [ZoomInTool(), ZoomOutTool(), PanTool(), ResetTool()]
+    p2.toolbar.logo = None
+    p2.toolbar.active_drag = None
+    p2.toolbar.active_scroll = None
+    p2.toolbar.active_tap = None
     p2.add_tools(hover2a, hover2b)
     # legend 2
     legend = Legend(items=[("Rain", [glyph_1, glyph_1a]), ("Snow", [glyph_2, glyph_2a])], location="top_center")
@@ -338,9 +362,14 @@ def create_NAM_graph(df):
     glyph_2a = p3.scatter(x='DATETIME', y='CLOUD', source=source, line_color="darkgrey", fill_color="grey", size=4)
     band = Band(base='DATETIME', upper='CLOUD', source=source, level='underlay', fill_alpha=0.3, fill_color='lightgrey')
     p3.add_layout(band)
-    # hover tool
+    # tools
     hover3a = HoverTool(renderers=[glyph_1], tooltips=[('Wind Speed', '@WS'), ('Wind Direction', '@WD'), ('Gusts', '@WG'), ('Time', '@DATETIME{%F %T}')], formatters={'@DATETIME': 'datetime'}, mode='vline')
     hover3b = HoverTool(renderers=[glyph_2], tooltips=[('% Coverage', '@CLOUD'), ('Time', '@DATETIME{%F %T}')], formatters={'@DATETIME': 'datetime'}, mode='vline')
+    p3.toolbar.logo = None
+    p3.tools = [ZoomInTool(), ZoomOutTool(), PanTool(), ResetTool()]
+    p3.toolbar.active_drag = None
+    p3.toolbar.active_scroll = None
+    p3.toolbar.active_tap = None
     p3.add_tools(hover3a, hover3b)
     # legend 3
     legend = Legend(items=[("Wind", [glyph_1, glyph_1a]), ("Cloud", [glyph_2, glyph_2a])], location="top_center")

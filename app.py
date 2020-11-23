@@ -7,7 +7,7 @@ import os
 import random
 # root files
 from scripts import *
-from env import *
+# from env import *
 
 # Initialize app
 app = Flask(__name__)

@@ -6,22 +6,11 @@ import requests
 import os
 import random
 # root files
-from config import ProdConfig, DevConfig
 from scripts import *
-#from env import *
+from env import *
 
 # Initialize app
 app = Flask(__name__)
-
-# Configuration
-#app.config.from_object(DevConfig())
-app.config.from_object(ProdConfig())
-
-'''
-# Initialize dB
-db = SQLAlchemy(app)
-from models import *
-'''
 
 # Query API to dynamically generate site
 areas = requests.get('https://skiforecast-api.herokuapp.com/api/v1/areas', auth=(os.environ['API_User'], os.environ['API_KEY'])) #(userpass(), userpass()))

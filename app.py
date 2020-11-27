@@ -7,19 +7,18 @@ import os
 import random
 # root files
 from scripts import *
-from env import *
+#from env import *
 
 # Initialize app
 app = Flask(__name__)
 
 # Query API to dynamically generate site
-areas = requests.get('https://skiforecast-api.herokuapp.com/api/v1/areas', auth=(userpass(), userpass()))
-areas = areas.json()
+areas = requests.get('https://skiforecast-api.herokuapp.com/api/v1/areas', auth=(os.environ['API_User'], os.environ['API_KEY'])) #(userpass(), userpass()))areas = areas.json()
 
 @app.route("/", methods =['GET'])
 def index():
     # Query API to dynamically generate site
-    areas = requests.get('https://skiforecast-api.herokuapp.com/api/v1/areas', auth=(userpass(), userpass()))
+    areas = requests.get('https://skiforecast-api.herokuapp.com/api/v1/areas', auth=(os.environ['API_User'], os.environ['API_KEY'])) #(userpass(), userpass()))
     areas = areas.json()
     # Create list, pass to Jinja to generate dynamic links
     resort_name_list = {}
@@ -41,7 +40,7 @@ def index():
 @app.route("/<area_name>", methods =['GET'])
 def forecast(area_name):
     # Query API to dynamically generate site
-    areas = requests.get('https://skiforecast-api.herokuapp.com/api/v1/areas', auth=(userpass(), userpass()))
+    areas = requests.get('https://skiforecast-api.herokuapp.com/api/v1/areas', auth=(os.environ['API_User'], os.environ['API_KEY'])) #(userpass(), userpass()))
     areas = areas.json()
     # Generate page if it exists in API
     for area in areas:

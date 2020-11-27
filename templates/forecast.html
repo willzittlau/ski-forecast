@@ -15,7 +15,7 @@
             <h2>Weather Graphs</h2>
             <!--Hide/Show buttons-->
             <div class= "button-block">
-                <button class="pure-button" onclick="toggle_HRDPS();toggle_NAM();">Toggle 48H/3.5D Forecasts</button>   
+                <button class="pure-button" onclick="toggle_graph();">Toggle Forecasts</button>   
                 <!--Hide/Show buttons <button class="pure-button" onclick="show_historical()">Hide/Show NAM</button> -->
             </div>
             <div class="pure-g">
@@ -31,11 +31,15 @@
                         {{NAM_plot | safe}}
                         <p>Model elevation: {{NAM_elevation}}</p>
                 </div>
+                <div class="l-box" id="10D" align="center" style="display:none;">
+                    <h3>10 Day Forecast (GFS, 0.25&#176; res)</h3>
+                    {{GFS_plot | safe}}
+            </div>
                 <!--Forecast Graph box 2 demo if historical gets added
                 <div class="pure-u-1 pure-u-md-1-2">
                     <div class="l-box" id="72H" align="center">
                         <h3>3.5 Day Forecast (NAM, 12km res)</h3>
-                        {{NAM_plot | safe}}
+                        {{GFS_plot | safe}}
                         <p>Model elevation: {{NAM_elevation}}</p>
                     </div>
                 </div>

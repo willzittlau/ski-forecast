@@ -1,22 +1,33 @@
 //Hide / Show Graphs button
+var counter = 'start';
 
-function toggle_HRDPS() {
+function toggle_graph() {
     var x = document.getElementById("48H");
-    if (x.style.display === "none") {
-        x.style.display = "block"; 
-    } 
-    else {
-        x.style.display = "none";
-    }
-}
-
-function toggle_NAM() {
     var y = document.getElementById("72H");
-    if (y.style.display === "block") {
-        y.style.display = "none"; 
-    } 
-    else {
+    var z = document.getElementById("10D");
+    if (counter === 'start'){
+        x.style.display = "none"; 
         y.style.display = "block";
+        z.style.display = "none";
+        counter =2;
+    }
+    else if (counter === 0) {
+        x.style.display = "block"; 
+        y.style.display = "none";
+        z.style.display = "none";
+        counter += 1;
+    }
+    else if (counter === 1){
+        x.style.display = "none"; 
+        y.style.display = "block";
+        z.style.display = "none";
+        counter +=1;
+    }
+    else if (counter === 2){
+        x.style.display = "none"; 
+        y.style.display = "none";
+        z.style.display = "block";
+        counter = 0;
     }
 }
 

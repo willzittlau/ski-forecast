@@ -7,19 +7,19 @@ import os
 import random
 # root files
 from scripts import *
-# from env import *
+from env import *
 
 # Initialize app
 app = Flask(__name__)
 
 # Query API to dynamically generate site
-areas = requests.get('https://skiforecast-api.herokuapp.com/api/v1/areas', auth=(os.environ['API_User'], os.environ['API_KEY'])) #(userpass(), userpass()))
+areas = requests.get('https://skiforecast-api.herokuapp.com/api/v1/areas', auth=(userpass(), userpass()))
 areas = areas.json()
 
 @app.route("/", methods =['GET'])
 def index():
     # Query API to dynamically generate site
-    areas = requests.get('https://skiforecast-api.herokuapp.com/api/v1/areas', auth=(os.environ['API_User'], os.environ['API_KEY'])) #(userpass(), userpass()))
+    areas = requests.get('https://skiforecast-api.herokuapp.com/api/v1/areas', auth=(userpass(), userpass()))
     areas = areas.json()
     # Create list, pass to Jinja to generate dynamic links
     resort_name_list = {}
@@ -41,7 +41,7 @@ def index():
 @app.route("/<area_name>", methods =['GET'])
 def forecast(area_name):
     # Query API to dynamically generate site
-    areas = requests.get('https://skiforecast-api.herokuapp.com/api/v1/areas', auth=(os.environ['API_User'], os.environ['API_KEY'])) #(userpass(), userpass()))
+    areas = requests.get('https://skiforecast-api.herokuapp.com/api/v1/areas', auth=(userpass(), userpass()))
     areas = areas.json()
     # Generate page if it exists in API
     for area in areas:
@@ -60,7 +60,9 @@ def forecast(area_name):
             avy_data = get_avy_forecast(avalanche_forecast)
             weather_data = get_HRDPS_weather(coordinates, tz_info)
             NAM_data = get_NAM_weather(coordinates, tz_info)
+            GFS_data = get_GFS_weather(coordinates, tz_info)
             # Create weather graphs
+            GFS_plot = create_NAM_graph(GFS_data)
             HRDPS_plot = create_HRDPS_graph(weather_data)
             NAM_plot = create_NAM_graph(NAM_data)
             # Create avalanche info
@@ -79,6 +81,7 @@ def forecast(area_name):
                                     map_coordinates = map_coordinates,
                                     HRDPS_plot = HRDPS_plot, 
                                     NAM_plot = NAM_plot, 
+                                    GFS_plot = GFS_plot, 
                                     summary = summary, 
                                     avy_danger = avy_danger, 
                                     avy_problems = avy_problems, 

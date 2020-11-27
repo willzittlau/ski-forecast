@@ -61,6 +61,48 @@ def get_HRDPS_weather(coordinates, tz_info):
             df.at[i, 'DATE'], df.at[i, 'TIME'])
     return df
 
+def get_GFS_weather(coordinates, tz_info):
+    # Query SpotWX
+    response = requests.get(
+        'https://spotwx.com/products/grib_index.php?model=gfs_pgrb2_0p25_f&%s&tz=%s&display=table' % (coordinates, tz_info)).text
+    soup = BeautifulSoup(response, "lxml")
+    scripts = str(soup.find_all('script', text=re.compile("var aDataSet =")))
+    # Regex parsing
+    m = re.search(r'\[.*\](?= )', scripts)
+    m = m.group(0)
+    data = re.findall(r'\[(.*?)\]', m)
+    df = []
+    for sets in data:
+        sets = sets.split('\',\'')
+        for s in sets:
+            s = s.replace('\'', '')
+        df.append(sets)
+    # Create df and drop unwanted colmuns
+    df = pd.DataFrame(columns=["DATETIME", "DATE", "TIME", "TMP",
+                               "RH", "WS", "WD", "APCP", "CLOUD",
+                               "SLP", "PTYPE", "RQP", "SQP", "FQP", "IQP",
+                               "WS925", "WD925", "TMP850", "WS850", "WD850", "4LFTX", "HGT_0C_DB"], data=df)
+    # Correct data types from str input
+    df["DATETIME"] = ''
+    df.at[0, 'CLOUD'] = '0'
+    for i in range(0, len(df['TIME'])):
+        df.at[i, 'WD'] = convert_compass(df.at[i, 'WD'])
+        df.at[i, 'TMP'] = float(df.at[i, 'TMP'])
+        df.at[i, 'WS'] = float(df.at[i, 'WS'])
+        df.at[i, 'CLOUD'] = float(df.at[i, 'CLOUD'])
+        df.at[i, 'RQP'] = float(df.at[i, 'RQP'])
+        df.at[i, 'SQP'] = float(df.at[i, 'SQP'])
+        df.at[i, 'FQP'] = float(df.at[i, 'FQP'])
+        df.at[i, 'IQP'] = float(df.at[i, 'IQP'])
+        df.at[i, 'HGT_0C_DB'] = int(df.at[i, 'HGT_0C_DB'].replace("'", ""))
+        df.at[i, 'DATE'] = datetime.datetime.strptime(
+            df.at[i, 'DATE'], '%Y/%m/%d').date()
+        df.at[i, 'TIME'] = datetime.datetime.strptime(
+            df.at[i, 'TIME'], '%H:%M').time()
+        df.at[i, 'DATETIME'] = datetime.datetime.combine(
+            df.at[i, 'DATE'], df.at[i, 'TIME'])
+    return df
+
 def get_NAM_weather(coordinates, tz_info):
     # Query SpotWX
     response = requests.get(
@@ -381,3 +423,5 @@ def create_NAM_graph(df):
     # return plot
     html = file_html(plot, CDN)
     return html
+
+get_GFS_weather('lat=49.76125&lon=-123.02319', 'America/Vancouver')

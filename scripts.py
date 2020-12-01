@@ -217,7 +217,7 @@ def get_avy_danger(avy_data):
     date = []
     # Write the 3 forecast days
     for danger_date in danger_list:
-        forecastDate = correct_date(danger_date["date"][:10])
+        forecastDate = str(correct_date(danger_date["date"][:10]))
         string = '<h4>' + forecastDate + '</h4>'
         date.append(string)
     danger = []

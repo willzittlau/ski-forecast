@@ -67,7 +67,7 @@ def forecast(area_name):
             # Create avalanche info
             avy_danger = get_avy_danger(avy_data)
             avy_problems = get_avy_problems(avy_data)
-            date_issued = correct_date(avy_data["dateIssued"][:10])
+            date_issued = str(correct_date(avy_data["dateIssued"][:10]))
             # Create forecast summary for end of page
             summary = []
             summary.append("<h3>Highlights:</h3>" + avy_data["highlights"])

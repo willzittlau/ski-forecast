@@ -6,6 +6,7 @@ import json
 import lxml
 import re
 import datetime
+from datetime import timedelta
 # graphing
 from bokeh.plotting import figure, output_file, show
 from bokeh.models import ColumnDataSource, Band, Tabs, Panel, LinearAxis, Range1d, Legend
@@ -187,6 +188,11 @@ def convert_compass(direction):
         direction = str(direction) + u'\N{DEGREE SIGN}' + ' N'
     return direction
 
+def correct_date(dateString):
+    wrongDate = datetime.date.fromisoformat(dateString)
+    newDate = wrongDate - timedelta(days=1)
+    return newDate
+
 def convert_elevtxt(elevation):
     # Convert text from API to human friendly
     elevation = elevation.lower()
@@ -211,7 +217,8 @@ def get_avy_danger(avy_data):
     date = []
     # Write the 3 forecast days
     for danger_date in danger_list:
-        string = '<h4>' + danger_date["date"][:10] + '</h4>'
+        forecastDate = correct_date(danger_date["date"][:10])
+        string = '<h4>' + forecastDate + '</h4>'
         date.append(string)
     danger = []
     # Rename keys

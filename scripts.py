@@ -217,9 +217,13 @@ def get_avy_danger(avy_data):
     date = []
     # Write the 3 forecast days
     for danger_date in danger_list:
-        forecastDate = str(correct_date(danger_date["date"][:10]))
-        string = '<h4>' + forecastDate + '</h4>'
-        date.append(string)
+        if avy_data['region'] == 'glacier':
+            string = '<h4>' + danger_date["date"][:10] + '</h4>'
+            date.append(string)
+        else:
+            forecastDate = str(correct_date(danger_date["date"][:10]))
+            string = '<h4>' + forecastDate + '</h4>'
+            date.append(string)
     danger = []
     # Rename keys
     for dangers in danger_list:

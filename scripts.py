@@ -348,7 +348,10 @@ def create_NAM_graph(df):
     # Create plot 1
     y_overlimit = 0.05
     p1 = figure(x_axis_type='datetime', plot_width=600, plot_height=400, toolbar_location='above', sizing_mode='scale_width')
-    p1.title.text = '3.5 Day Temperature'
+    if len(df) > 65:
+        p1.title.text = '10 Day Temperature'
+    else:
+        p1.title.text = '3.5 Day Temperature'
     p1.xaxis.axis_label = 'Date/Time'
     p1.yaxis.axis_label = 'Temperature \N{DEGREE SIGN}C'
     # add lines
@@ -378,7 +381,10 @@ def create_NAM_graph(df):
     tab1 = Panel(child=p1, title="Temperature")
     # create plot 2
     p2 = figure(x_axis_type='datetime', plot_width=600, plot_height=400, toolbar_location='above', sizing_mode='scale_width')
-    p2.title.text = '3.5 Day Precipitation'
+    if len(df) > 65:
+        p2.title.text = '10 Day Precipitation'
+    else:
+        p2.title.text = '3.5 Day Precipitation'
     p2.xaxis.axis_label = 'Date/Time'
     p2.yaxis.axis_label = 'Amount (mm/cm)'
     # add lines
@@ -405,7 +411,10 @@ def create_NAM_graph(df):
     tab2 = Panel(child=p2, title="Precipitation")
     # plot 3
     p3 = figure(x_axis_type='datetime', plot_width=600, plot_height=400, toolbar_location='above', sizing_mode='scale_width')
-    p3.title.text = '3.5 Day Wind/Cloud'
+    if len(df) > 65:
+        p1.title.text = '10 Day Wind/Cloud'
+    else:
+        p1.title.text = '3.5 Day Wind/Cloud'
     p3.xaxis.axis_label = 'Date/Time'
     p3.yaxis.axis_label = 'Speed (km/h) / % Coverage'
     # add lines
